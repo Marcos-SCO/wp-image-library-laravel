@@ -1,0 +1,6 @@
+/vendor
+/node_modules
+/logs/*.txt
+public/.htaccess
+.env
+dist
