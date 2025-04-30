@@ -1,0 +1,139 @@
+.img-preview-item {
+  position: relative;
+  // display: inline-block;
+
+  margin-bottom: 1rem;
+
+  .preview-container {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    user-select: none;
+
+    transition: opacity ease-in .2s;
+
+    display: flex;
+    flex-direction: column;
+
+    &.active {
+      position: initial;
+      opacity: 1;
+      visibility: visible;
+      user-select: initial;
+    }
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    padding: .45rem;
+    max-width: 220px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+
+    color: #fff;
+    border-radius: 4px;
+
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  }
+
+  .preview-text-info {
+    color: #222;
+    font-size: 1rem;
+    padding: .5rem;
+    margin-bottom: .4rem;
+  }
+
+  /* Image preview container */
+  .img-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    /* Light grey background */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+
+    padding: .5rem;
+
+    // max-width: 500px;
+    width: 100%;
+    max-width: max-content;
+
+    /* Hide the image if none is set */
+    img {
+      cursor: pointer;
+      max-width: 100px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      // margin: .75rem;
+      // display: none;
+      /* Hide by default */
+    }
+
+    @media (min-width:700px) {
+      justify-content: space-between;
+    }
+  }
+
+}
+
+
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 150px;
+}
+
+.preview-image-wrapper {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+  width: 100px;
+  min-height: 100px;
+  max-height: 100px;
+
+  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  margin: .25rem;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 1rem;
+  padding: 0 8px;
+  padding-bottom: 3px;
+
+  &:hover {
+    background: red;
+  }
+}

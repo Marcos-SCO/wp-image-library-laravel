@@ -1,0 +1,131 @@
+@forward './dropZone';
+@forward './modal';
+@forward './paginationLinks';
+@forward './imgPreview';
+
+.gallery-main-container {
+  padding: .5rem;
+  background-color: #f9f9f9;
+
+  // Form styles
+  form[data-js="main-search-inputs-form"] {
+
+    margin-bottom: .5rem;
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    input[type="hidden"] {
+      display: none;
+    }
+  }
+
+  // Gallery Items
+  [data-js="gallery-container"] {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: space-evenly;
+
+    .gallery-item {
+
+      margin: auto;
+
+      background-color: #fff;
+      border: 2px solid #ddd;
+      // border: 2px solid transparent;
+
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+      width: calc(33.333% - 20px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+
+      flex-basis: fit-content;
+
+      &:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      min-height: 250px;
+      max-height: 250px;
+  
+      min-width: 100%;
+
+      margin-bottom: 2rem;
+
+      .gallery-image {
+        cursor: pointer;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+
+        min-height: inherit;
+        // max-height: 250px;
+        max-height: inherit;
+
+        // max-width: 280px;
+        max-width: inherit;
+      }
+
+      &:has(.selected) {
+        border-color: #007bff;
+      }
+
+      .gallery-actions {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+
+        button {
+          background: transparent;
+          border: 1px solid #fff;
+          color: #fff;
+          padding: 5px 10px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.3s ease, color 0.3s ease;
+
+          &:hover {
+            background: #fff;
+            color: #333;
+          }
+        }
+      }
+
+      @media (min-width: 700px) {
+        margin: 0;
+        margin-right: .75rem;
+        margin-bottom: 2rem;
+
+        min-width: 266px;
+        max-width: 266px;
+      }
+
+      
+    }
+    
+    @media (min-width: 1280px) {
+      justify-content: start;
+    }
+  }
+
+  @media (min-width: 700px) {
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+
+}

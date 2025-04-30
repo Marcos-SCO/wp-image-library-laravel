@@ -1,0 +1,57 @@
+.gallery-main-container {
+
+  // Image Upload Form
+  .image-upload-form {
+    margin-bottom: 1.5rem;
+
+    form[data-js="upload-form"] {
+      display: flex;
+      flex-direction: column;
+
+      .drop-zone {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border: 2px dashed #007bff;
+        padding: 1.5rem;
+
+        text-align: center;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+        margin: 1.5rem 0;
+
+        min-height: 180px;
+
+        color: #007bff;
+        font-size: 1.2rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+
+        cursor: pointer;
+        position: relative;
+
+        p {
+          margin: 0;
+          padding: 0 1rem;
+          font-size: 1rem;
+        }
+
+        &:hover {
+          background-color: #e9f4ff; // Softer hover effect
+          border-color: #0056b3; // Darker blue
+        }
+
+        &.dragging {
+          background-color: #e6f7ff; // Highlight when dragging
+          border-color: #33a1ff; // Stronger color cue
+        }
+        
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+    }
+  }
+}

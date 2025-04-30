@@ -1,0 +1,243 @@
+.swal2-container {
+  z-index: 99999;
+}
+
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
+  // overflow: initial!important;
+  overflow: hidden!important;
+}
+
+// Lightbox Modal Styling
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
+  z-index: 99999;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-overlay {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    cursor: initial;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    position: relative;
+
+    img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+  }
+
+  .close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #e9e9e9;
+    color: #fff;
+    border: none;
+    padding: .5rem;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: red;
+    }
+
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99;
+    
+    svg {
+      position: relative;
+      z-index: 1;
+      vertical-align: middle;
+      max-width: 15px;
+    }
+
+    &:hover {
+      background: #d3d3d3;
+    }
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    position: relative;
+    // max-width: 80%;
+    // max-height: 80%;
+
+    img[data-js="edit-image"] {
+      max-width: 100%;
+      height: auto;
+
+      // min-height: 200px;
+      // max-height: 200px;
+      margin-bottom: 1rem;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    button[type="submit"] {
+      display: block;
+      margin: .9rem 0;
+      width: 100%;
+    }
+
+    button[type="submit"] {
+      max-width: 150px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  }
+
+  // Close button
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ddd;
+    }
+  }
+}
+
+.gallery-external-modal {
+  .modal-content {
+    max-width: 95%;
+    max-height: 90%;
+  }
+}
+
+/* Modal Styling */
+.image-gallery-modal {
+
+  &.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    padding: 1.4rem;
+    position: relative;
+
+    /* Form styling inside modal */
+    form[data-js="update-form"] {
+      display: flex;
+      flex-direction: column;
+
+      .input-container {
+        margin-bottom: 15px;
+
+        label {
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+        }
+
+        input[type="text"] {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
+      }
+
+      .image-input-container {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        label {
+          cursor: pointer;
+
+          img[data-js="edit-image"] {
+            width: 100%;
+            max-height: auto;
+
+            min-height: 340px;
+            max-width: 400px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+          }
+        }
+
+        input[type="file"] {
+          margin-top: 1rem;
+        }
+      }
+
+      button[type="submit"] {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: .5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        &:hover {
+          background: #0056b3;
+        }
+      }
+
+
+    }
+
+  }
+}
