@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ env("APP_NAME", "Wp Media Library Laravel") }}</title>
 
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   @vite(['resources/css/app.css', 'resources/scss/app.scss', 'resources/js/app.js'])
 
 </head>
