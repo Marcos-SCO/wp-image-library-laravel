@@ -1,3 +1,17 @@
+function customDebounce(func, wait) {
+  let timeout;
+
+  return function executedFunction(...args) {
+      const later = () => {
+          timeout = null;
+          func(...args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+  };
+}
+
 function formGetParamsQueryStringUpdate(form) {
   const isHtmlDom = form instanceof HTMLElement;
 
@@ -92,7 +106,7 @@ function preventEmptyInputsFromSubmitForm(form) {
 
 }
 
-module.exports = {
+export {
   removeEmptyInputNamesFromForm,
   preventEmptyInputsFromSubmitForm,
   resetForm,

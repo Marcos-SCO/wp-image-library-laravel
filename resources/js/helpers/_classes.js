@@ -43,7 +43,7 @@ function toggleClassToElements(elements, classToAdd) {
   });
 }
 
-module.exports = {
+export {
   removeClassFromSelectors,
   removeClassFromElement,
   removeClassToElements,
