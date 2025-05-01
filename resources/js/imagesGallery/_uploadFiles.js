@@ -29,10 +29,10 @@ function createLoadingCard() {
   card.setAttribute('data-js', 'upload-loading-card');
 
   card.innerHTML = `
-    <div class="gallery-item loading-thumbnail">
-      
-      <span>Uploading...</span>
-    </div>
+  <div class="gallery-item loading-thumbnail">
+  
+  <span>Uploading...</span>
+  </div>
   `;
 
   return card;
@@ -57,6 +57,7 @@ export function uploadFiles(files) {
   Array.from(files).forEach(file => formData.append('images[]', file));
 
   const loadingCards = [];
+
   Array.from(files).forEach(() => {
     const loadingCard = createLoadingCard();
     loadingCards.push(loadingCard);

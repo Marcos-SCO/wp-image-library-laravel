@@ -45,12 +45,20 @@ export function dropDownImgUpload() {
 
     if (files.length > 0) {
       // Trigger only the debounced function
-      debouncedUploadFiles(files); 
+      debouncedUploadFiles(files);
     }
   });
 
-  uploadImages.addEventListener('change', function () {
-    // console.log(this.files)
-    debouncedUploadFiles(this.files[0]);
+  uploadImages.addEventListener('change', function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const files = e.target.files;
+
+    const filesLengthZeroArray =
+      Array.from({ length: files.length }, () => 0);
+
+    debouncedUploadFiles(filesLengthZeroArray);
+
   });
 }
