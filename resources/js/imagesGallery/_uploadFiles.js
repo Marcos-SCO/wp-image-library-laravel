@@ -96,7 +96,7 @@ export function uploadFiles(files) {
       // Handle success case
       if (dataSuccess) {
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = data.view_itens;
+        tempDiv.innerHTML = data.view_items;
 
         // Prepend new elements to the existing gallery container
         while (tempDiv.firstChild) {

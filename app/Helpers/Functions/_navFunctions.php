@@ -16,15 +16,15 @@ function generateMenuUlItems(array $items, string $ulContainerIdentifier = 'ul-m
   $output = '<ul class="' . $ulContainerIdentifier . '">';
 
   foreach ($items as $item) {
-    // Check if the item has a 'subitens' key
-    $hasSubItens = isset($item['subitens']) && is_array($item['subitens']);
+    // Check if the item has a 'subitems' key
+    $hasSubItems = isset($item['subitems']) && is_array($item['subitems']);
 
     $url = $item['route'];
     $routeTitle = $item['title'];
     $routeTarget = indexParamExistsOrDefault($item, 'target', '_self');
 
     $liClass = 'list-item level-' . $levelCount;
-    $liClass .= $hasSubItens ? ' has-sub-itens' : '';
+    $liClass .= $hasSubItems ? ' has-sub-items' : '';
 
     $arrowItem = '<span class="arrow-item">' . $arrowDownSvg . '</span>';
 
@@ -37,11 +37,11 @@ function generateMenuUlItems(array $items, string $ulContainerIdentifier = 'ul-m
     $output .= '<li class="' . $liClass . '">';
     $output .= '<a href="' . $url . '" target="' . $routeTarget . '" title="' . $routeTitle . '" data-page-id="' . $dataPageId . '">' . $routeTitle . '</a>';
 
-    if ($hasSubItens) {
+    if ($hasSubItems) {
       // Recursive call for sub-items
 
       $output .= $arrowItem;
-      $output .= generateMenuUlItems($item['subitens'], 'ul-child-container', $levelCount);
+      $output .= generateMenuUlItems($item['subitems'], 'ul-child-container', $levelCount);
     }
 
     $output .= '</li>';

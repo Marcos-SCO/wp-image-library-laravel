@@ -9,7 +9,7 @@
         {{ $selectLabel }}
     </button>
 
-    <input type="hidden" name="select_itens_json" data-selected-json>
+    <input type="hidden" name="select_items_json" data-selected-json>
     <input type="hidden" name="selected_images[]" value="" data-img-ids>
 
     <div class="preview-container">

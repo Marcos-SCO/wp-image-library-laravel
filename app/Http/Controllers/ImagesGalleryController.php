@@ -125,7 +125,7 @@ class ImagesGalleryController extends Controller
         ])->render();
 
         return response()->json([
-            'view_itens' => $view,
+            'view_items' => $view,
             'success' => 'Images send successfully!'
         ]);
     }
