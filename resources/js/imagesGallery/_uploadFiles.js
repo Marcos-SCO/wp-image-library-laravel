@@ -22,6 +22,23 @@ function displayFeedbackErrors(dataErrors) {
   console.error('Error sending files:', dataErrors);
 }
 
+
+function createLoadingCard() {
+  const card = document.createElement('div');
+  card.classList.add('gallery-card', 'loading-card');
+  card.setAttribute('data-js', 'upload-loading-card');
+
+  card.innerHTML = `
+    <div class="gallery-item loading-thumbnail">
+      
+      <span>Uploading...</span>
+    </div>
+  `;
+
+  return card;
+}
+
+
 export function uploadFiles(files) {
 
   let isLoading = false;
@@ -31,9 +48,20 @@ export function uploadFiles(files) {
 
   const uploadForm = document.querySelector('[data-js="upload-form"]');
   const formData = new FormData(uploadForm);
+  const galleryContainer = document.querySelector('[data-js="gallery-container"]');
+  const errorContainer = document.querySelector('[data-js="upload-error"]');
+
+  if (!galleryContainer) console.error('No gallery container element...');
 
   // Add files to FormData
   Array.from(files).forEach(file => formData.append('images[]', file));
+
+  const loadingCards = [];
+  Array.from(files).forEach(() => {
+    const loadingCard = createLoadingCard();
+    loadingCards.push(loadingCard);
+    galleryContainer.insertBefore(loadingCard, galleryContainer.firstChild);
+  });
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
@@ -52,13 +80,11 @@ export function uploadFiles(files) {
       const dataSuccess = data?.success;
       const dataErrors = data?.errors;
 
-      const galleryContainer = document.querySelector('[data-js="gallery-container"]');
-
-      if (!galleryContainer) console.error('No Gallery container element...');
+      // Remove loading cards regardless of outcome
+      loadingCards.forEach(card => card.remove());
 
       // Handle success case
       if (dataSuccess) {
-
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = data.view_itens;
 
@@ -67,26 +93,30 @@ export function uploadFiles(files) {
           galleryContainer.insertBefore(tempDiv.firstChild, galleryContainer.firstChild);
         }
 
-        // Reinitialize event listeners
         initEventListeners();
       }
 
-      // Handle error case (validation or upload failure)
-      if (dataErrors) displayFeedbackErrors(dataErrors);
+      if (dataErrors) {
+        if (loadingCard.parentNode) {
+          loadingCard.parentNode.removeChild(loadingCard);
+        }
+        displayFeedbackErrors(dataErrors);
+      }
 
     })
     .catch(error => {
       console.error('Error uploading files:', error);
 
-      // Display generic error message
-      errorContainer.innerHTML = '<p>Error while trying to send files, try again.</p>';
+      if (errorContainer) {
+        errorContainer.innerHTML = '<p>Error while trying to send files, try again.</p>';
+      }
 
+      if (loadingCard.parentNode) {
+        loadingCard.parentNode.removeChild(loadingCard);
+      }
     })
     .finally(() => {
-
       isLoading = false;
-
-      // Reset the form after the upload is completed
       uploadForm.reset();
     });
 }
