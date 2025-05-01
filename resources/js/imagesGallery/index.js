@@ -8,14 +8,25 @@ import { handleEditModal } from './_editModal.js';
 import { handleGalleryDeleteItems } from './_deleteModal.js';
 import { dropDownImgUpload } from './_dropDownImgUpload.js';
 
-window.initEventListeners = function initEventListeners() {
+// window.initEventListeners = function initEventListeners() {
+//   handlePagination();
+//   handleEditModal();
+// }
+
+function initEventListeners() {
   handlePagination();
+  
   handleEditModal();
+  handleGalleryDeleteItems();
+  
+  dropDownImgUpload();
+  handleUpdateFormSubmit();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  handleGalleryDeleteItems();
   initEventListeners();
-  dropDownImgUpload();
-  handleUpdateFormSubmit();
 });
+
+export {
+  initEventListeners
+}
