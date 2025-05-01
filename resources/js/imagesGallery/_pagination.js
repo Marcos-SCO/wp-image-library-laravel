@@ -90,27 +90,33 @@ const debouncedPaginationData = debounce((url, dataPage) => {
 
 // Function to handle pagination via event delegation
 function handlePagination() {
-  const paginationContainer =
-    document.querySelector('.gallery-main-container.active [data-js="pagination-links-container"]');
+  const paginationContainer = document.querySelector('.gallery-main-container.active [data-js="pagination-links-container"]');
 
   if (!paginationContainer) return;
 
-  // Use event delegation to handle clicks on pagination links
-  paginationContainer.addEventListener('click', function (e) {
+  // If a previous handler exists, remove it
+  if (paginationContainer._paginationHandler) {
+    paginationContainer.removeEventListener('click', paginationContainer._paginationHandler);
+  }
+
+  // Define and store the new handler
+  const paginationHandler = function (e) {
     e.preventDefault();
 
     const target = e.target;
     const clickedLink = target.tagName.toLowerCase() === 'a';
 
-    // Check if the clicked element is a link
     if (!clickedLink) return;
 
     const url = target.getAttribute('href');
     const dataPage = target?.getAttribute('data-page');
 
     debouncedPaginationData(url, dataPage);
+  };
 
-  });
+  // Attach the handler to the element for future removal
+  paginationContainer._paginationHandler = paginationHandler;
+  paginationContainer.addEventListener('click', paginationHandler);
 }
 
 export {

@@ -130,10 +130,14 @@ export function handleEditModal() {
 
   if (!galleryMainContainer) return;
 
-  galleryMainContainer.addEventListener('click', e => {
+  // Remove previous listener if it exists
+  if (galleryMainContainer._editClickHandler) {
+    galleryMainContainer.removeEventListener('click', galleryMainContainer._editClickHandler);
+  }
 
+  // Define the new handler
+  const editClickHandler = function (e) {
     const target = e.target;
-
     const targetAttribute = target?.getAttribute('data-js');
     const editBtn = targetAttribute === 'edit-btn';
 
@@ -142,7 +146,9 @@ export function handleEditModal() {
     if (!editBtn) return;
 
     debouncedFetchEditModalItem(dataId);
+  };
 
-  });
-
+  // Store the handler and attach it
+  galleryMainContainer._editClickHandler = editClickHandler;
+  galleryMainContainer.addEventListener('click', editClickHandler);
 }

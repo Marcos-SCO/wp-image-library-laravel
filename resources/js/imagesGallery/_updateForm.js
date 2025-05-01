@@ -48,28 +48,35 @@ const debouncedUpdateRequest = debounce((id, dataJson) => {
 }, 300);
 
 async function handleUpdateFormSubmit() {
-  const updateForm = document.querySelector('[data-js="update-form"]');
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
+
+  const updateForm = galleryMainContainer?.querySelector('[data-js="update-form"]');
   if (!updateForm) return;
 
-  // return;
+  // Remove any previous submit handler
+  if (updateForm._submitHandler) {
+    updateForm.removeEventListener('submit', updateForm._submitHandler);
+  }
 
-  updateForm.addEventListener('submit', async function (e) {
+  updateForm._submitHandler = async function (e) {
     e.preventDefault();
 
-    let id = document.querySelector('[data-js="edit-image-id"]').value;
+    const idInput =
+      galleryMainContainer?.querySelector('[data-js="edit-image-id"]');
+
+    const id = idInput?.value;
 
     if (!id) {
       console.error('Image ID is not set');
       return;
     }
 
-    let formData = new FormData(this);
+    const formData = new FormData(updateForm);
 
     // Check if a new image file is selected
     const fileInput = updateForm.querySelector('input[type="file"]');
 
     if (fileInput && fileInput.files.length > 0) {
-
       const { base64, name, type } =
         await fileToBase64(fileInput.files[0]);
 
@@ -78,11 +85,12 @@ async function handleUpdateFormSubmit() {
       formData.append('image_type', type);
     }
 
-    let jsonData = formDataToJson(formData);
+    const jsonData = formDataToJson(formData);
 
     debouncedUpdateRequest(id, jsonData);
+  };
 
-  });
+  updateForm.addEventListener('submit', updateForm._submitHandler);
 }
 
 export {

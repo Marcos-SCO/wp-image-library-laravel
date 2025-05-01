@@ -116,7 +116,13 @@ export function handleGalleryDeleteItems() {
   const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
   if (!galleryMainContainer) return;
 
-  galleryMainContainer.addEventListener('click', (e) => {
+  // Remove previous listener if it exists
+  if (galleryMainContainer._deleteClickHandler) {
+    galleryMainContainer.removeEventListener('click', galleryMainContainer._deleteClickHandler);
+  }
+
+  // Define the new handler
+  const deleteClickHandler = (e) => {
     const target = e.target;
     const targetAttribute = target?.getAttribute('data-js');
     const deleteBtn = targetAttribute === 'delete-btn';
@@ -124,7 +130,6 @@ export function handleGalleryDeleteItems() {
 
     if (!deleteBtn) return;
 
-    // Use SweetAlert to confirm deletion
     Swal.fire({
       title: 'Are you sure?',
       text: "Do you really want to delete this image?",
@@ -135,23 +140,21 @@ export function handleGalleryDeleteItems() {
       confirmButtonText: 'Yes, delete!',
       cancelButtonText: 'No, go back'
     }).then((result) => {
+      if (!result.isConfirmed) return;
 
-      if (!result.isConfirmed) {
-        return;
-      }
-
-      // Proceed with deletion
       deleteGalleryItem(dataId);
 
-      // SweetAlert for success without confirm button
       Swal.fire({
         title: 'Deleted!',
         text: 'Your image was deleted.',
         icon: 'success',
-        showConfirmButton: false, // No OK button
-        timer: 1500 // Close after 1.5 seconds
+        showConfirmButton: false,
+        timer: 1500
       });
-
     });
-  });
+  };
+
+  // Store and bind the handler
+  galleryMainContainer._deleteClickHandler = deleteClickHandler;
+  galleryMainContainer.addEventListener('click', deleteClickHandler);
 }

@@ -37,53 +37,51 @@ function sendGetFormRequest(form) {
   fetchPaginationData(fullUrl);
 }
 
-function formInputsChange(form, defaultFormSelect = '.gallery-page [data-js="main-search-inputs-form"]') {
-// function formInputsChange(form, defaultFormSelect = '[data-js="main-search-inputs-form"]') {
+function formInputsChange(form, defaultFormSelect = '[data-js="gallery-main-container"].active [data-js="main-search-inputs-form"]') {
+  // function formInputsChange(form, defaultFormSelect = '[data-js="main-search-inputs-form"]') {
 
   const isHtmlDom = form instanceof HTMLElement;
 
-  const formContainers =
-    isHtmlDom ? form : document.querySelectorAll(defaultFormSelect);
+  const formContainer =
+    isHtmlDom ? form : document.querySelector(defaultFormSelect);
 
-  Array.from(formContainers).forEach(formContainer => {
+  if (!formContainer) return;
 
-    if (!formContainer) return;
+  const formElements = formContainer.querySelectorAll(`input, select`);
 
-    const formElements = formContainer.querySelectorAll(`input, select`);
+  /* const debounceChange = debounce((element) => {
+    // isFormChanged = true;
+    console.log(`${element.name} was changed`);
+ 
+    sendGetFormRequest(`[data-js="main-search-inputs-form"]`);
+ 
+  }, 300); */
 
-    /* const debounceChange = debounce((element) => {
-      // isFormChanged = true;
-      console.log(`${element.name} was changed`);
-  
-      sendGetFormRequest(`[data-js="main-search-inputs-form"]`);
-  
-    }, 300); */
+  const debounceSubmitForm = debounce((formContainer) => {
+    sendGetFormRequest(formContainer);
+  }, 300);
 
-    const debounceSubmitForm = debounce((formContainer) => {
-      sendGetFormRequest(formContainer);
-    }, 300);
+  formElements.forEach(function (element) {
 
-    formElements.forEach(function (element) {
-
-      element.addEventListener('change', function () {
-        // console.log(element);
-        // debounceChange(element);
-      });
+    element.addEventListener('change', function () {
+      // console.log(element);
+      // debounceChange(element);
     });
-
-    formContainer.addEventListener('submit', e => {
-      e.preventDefault();
-
-      debounceSubmitForm(formContainer);
-    });
-
   });
+
+  // Remove previous submit listener if it exists
+  if (formContainer._submitHandler) {
+    formContainer.removeEventListener('submit', formContainer._submitHandler);
+  }
+
+  const submitHandler = function (e) {
+    e.preventDefault();
+    debounceSubmitForm(formContainer);
+  };
+
+  formContainer._submitHandler = submitHandler;
+  formContainer.addEventListener('submit', submitHandler);
 
 }
 
 export { formInputsChange }
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  formInputsChange();
-});
