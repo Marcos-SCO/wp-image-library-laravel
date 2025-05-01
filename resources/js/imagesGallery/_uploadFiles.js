@@ -1,5 +1,27 @@
 import { getLaravelCsrfToken } from "../helpers/_dom";
 
+function displayFeedbackErrors(dataErrors) {
+
+  const errorContainer = document.querySelector('[data-js="upload-error"]');
+
+  if (!errorContainer) return;
+  errorContainer.innerHTML = ``;
+
+  let errorMessage = `<ul>`;
+  for (const [field, messages] of Object.entries(dataErrors)) {
+    messages.forEach(message => {
+      errorMessage += `<li>${message}</li>`;
+    });
+  }
+  errorMessage += `</ul>`;
+
+  errorContainer.innerHTML = errorMessage;
+
+  console.log(errorContainer);
+
+  console.error('Error sending files:', dataErrors);
+}
+
 export function uploadFiles(files) {
 
   let isLoading = false;
@@ -12,8 +34,6 @@ export function uploadFiles(files) {
 
   // Add files to FormData
   Array.from(files).forEach(file => formData.append('images[]', file));
-
-  const errorContainer = document.querySelector('[data-js="upload-error"]');
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
@@ -32,44 +52,27 @@ export function uploadFiles(files) {
       const dataSuccess = data?.success;
       const dataErrors = data?.errors;
 
+      const galleryContainer = document.querySelector('[data-js="gallery-container"]');
+
+      if (!galleryContainer) console.error('No Gallery container element...');
+
       // Handle success case
       if (dataSuccess) {
-        const galleryContainer = document.querySelector('[data-js="gallery-container"]');
 
-        if (galleryContainer) {
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = data.view_itens;
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data.view_itens;
 
-          // Prepend new elements to the existing gallery container
-          while (tempDiv.firstChild) {
-            galleryContainer.insertBefore(tempDiv.firstChild, galleryContainer.firstChild);
-          }
+        // Prepend new elements to the existing gallery container
+        while (tempDiv.firstChild) {
+          galleryContainer.insertBefore(tempDiv.firstChild, galleryContainer.firstChild);
         }
 
         // Reinitialize event listeners
         initEventListeners();
       }
 
-      if (!errorContainer) return;
-      errorContainer.innerHTML = ``;
-
       // Handle error case (validation or upload failure)
-      if (dataErrors) {
-
-        let errorMessage = `<ul>`;
-        for (const [field, messages] of Object.entries(dataErrors)) {
-          messages.forEach(message => {
-            errorMessage += `<li>${message}</li>`;
-          });
-        }
-        errorMessage += `</ul>`;
-
-        errorContainer.innerHTML = errorMessage;
-
-        console.log(errorContainer);
-
-        console.error('Error sending files:', dataErrors);
-      }
+      if (dataErrors) displayFeedbackErrors(dataErrors);
 
     })
     .catch(error => {
