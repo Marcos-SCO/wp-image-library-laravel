@@ -8,14 +8,16 @@ const debouncedUploadFiles = debounce((files) => {
 }, 300);
 
 export function dropDownImgUpload() {
+  const activeMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+  if (!activeMainContainer) return;
 
   const uploadImages =
-    document.querySelector('[data-js="upload-images"]');
+    activeMainContainer.querySelector('[data-js="upload-images"]');
 
-  const dropZone = document.querySelector('[data-js="drop-zone"]');
+  const dropZone = activeMainContainer.querySelector('[data-js="drop-zone"]');
 
   const uploadForm =
-    document.querySelector('[data-js="upload-form"]');
+    activeMainContainer.querySelector('[data-js="upload-form"]');
 
   if (!uploadImages || !dropZone || !uploadForm) return;
 

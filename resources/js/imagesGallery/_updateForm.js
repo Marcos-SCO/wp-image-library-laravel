@@ -51,8 +51,6 @@ async function handleUpdateFormSubmit() {
   const updateForm = document.querySelector('[data-js="update-form"]');
   if (!updateForm) return;
 
-  // console.log(jsonData, 'json');
-  // console.log(id, 'aaa');
   // return;
 
   updateForm.addEventListener('submit', async function (e) {

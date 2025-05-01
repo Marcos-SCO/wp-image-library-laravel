@@ -23,7 +23,7 @@ $search = indexParamExistsOrDefault($_GET, 'search', '');
 
 @include('images-gallery.external-module.selector-container')
 
-<article class="gallery-main-container" data-js="gallery-main-container" data-page="gallery">
+<article class="gallery-main-container gallery-page active" data-js="gallery-main-container" data-page="gallery">
 
 @include('images-gallery.content.gallery-content')
 

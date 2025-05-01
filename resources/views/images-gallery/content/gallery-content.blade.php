@@ -7,7 +7,7 @@
   <input type="hidden" name="page" data-current-page="{{ $page }}" value="{{ $page }}">
 
   <input type="hidden" name="base-url" data-base-url="{{ url('') }}">
-  <input type="hidden" name="base-cms-path" data-base-path="{{ url('gallery'); }}">
+  <input type="hidden" name="base-path" data-base-path="{{ url('gallery'); }}">
 </form>
 
 <!-- Image Upload Form -->

@@ -1,25 +1,45 @@
+import { initEventListeners } from ".";
+import { removeClassFromSelectors } from "../helpers/_classes";
+import { handleEditModal } from "./_editModal";
+import { formInputsChange } from "./form";
+
+function toggleActiveToMainGalleryArticle() {
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
+
+  if (!galleryMainContainer) return;
+  
+  galleryMainContainer.classList.add('active');
+
+  initEventListeners();
+}
+
 function handleEscKeyCloseLightModal() {
   const body = document.body;
 
   body.addEventListener('keyup', (e) => {
 
     if (!(e.key === 'Escape')) return;
-
+    
     const isSweetAlertActive =
-      body.classList.contains('swal2-shown');
-
+    body.classList.contains('swal2-shown');
+    
     if (isSweetAlertActive) return;
-
+    
     const activeModals = document.querySelectorAll('.lightbox-modal.active');
     if (!activeModals?.length > 0) return;
-
+    
     const openedModals = Array.from(activeModals);
     if (!openedModals) return;
-
+    
     const lastActive = openedModals[openedModals?.length - 1];
-
+    
     lastActive.classList.remove('active');
 
+    removeClassFromSelectors('[data-js="gallery-main-container"].active', 'active');
+
+    // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
+
+    toggleActiveToMainGalleryArticle();
   });
 }
 
@@ -36,6 +56,11 @@ function closeModalButtonListener() {
 
     closestActive.classList.remove('active');
 
+    removeClassFromSelectors('[data-js="gallery-main-container"].active', 'active');
+
+    // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
+
+    toggleActiveToMainGalleryArticle();
   })
 }
 
@@ -55,6 +80,11 @@ function closeLastActiveOutsideClickListener() {
 
     closestActiveModal?.classList.remove('active');
 
+    removeClassFromSelectors('[data-js="gallery-main-container"].active', 'active');
+
+    // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
+
+    toggleActiveToMainGalleryArticle();
   })
 }
 
@@ -63,3 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   handleEscKeyCloseLightModal();
   closeLastActiveOutsideClickListener();
 });
+
+export {
+  toggleActiveToMainGalleryArticle
+}

@@ -1,10 +1,14 @@
 import Swal from "sweetalert2";
-import { removeClassFromSelectors } from "../../helpers/_classes";
+import { addClassToElement, removeClassFromSelectors } from "../../helpers/_classes";
 import { handleGalleryDeleteItems } from "../_deleteModal";
 import { dropDownImgUpload } from "../_dropDownImgUpload";
 import { handleEditModal } from "../_editModal";
 import { handlePagination } from "../_pagination";
 import { handleUpdateFormSubmit } from "../_updateForm";
+import { getBaseUrl } from "../../helpers/_dom";
+import { formInputsChange } from "../form";
+import { toggleActiveToMainGalleryArticle } from "../_closeModals";
+import { initEventListeners } from "..";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -13,17 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!imagesGalleryModal || !modalContent) return;
 
-  window.getBaseUrl = function getBaseUrl() {
-    return document.querySelector('[data-base-url]')?.getAttribute('data-base-url');
-  }
-
-  window.initEventListeners = function initEventListeners() {
-    handlePagination();
-    handleEditModal();
-  }
-
   function updateModalSelectedImages() {
-    
+
     const activeTriggerContainer = document.querySelector('[data-images-modal-trigger].active-trigger');
     if (!activeTriggerContainer) return;
 
@@ -57,10 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         imagesGalleryModal.classList.add('loaded-gallery');
 
+        imagesGalleryModal?.querySelector('[data-js="gallery-main-container"]')
+          ?.classList.add('active');
+
+        // Listen inputs inside active modal
+        // formInputsChange(false, '.gallery-modal.active [data-js="main-search-inputs-form"]');
+
+        // formInputsChange(false, '[data-js="main-search-inputs-form"]');
+
         initEventListeners();
-        handleGalleryDeleteItems();
-        dropDownImgUpload();
-        handleUpdateFormSubmit();
 
         updateModalSelectedImages();
       })
@@ -68,6 +68,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function openModalGallery() {
+
+    removeClassFromSelectors('.gallery-page.active', 'active');
 
     const imgGalleryWasLoaded = imagesGalleryModal
       ?.classList?.contains('loaded-gallery');
@@ -79,6 +81,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     imagesGalleryModal.classList.add('active');
+
+    imagesGalleryModal?.querySelector('[data-js="gallery-main-container"]')
+      ?.classList.add('active');
+
+    initEventListeners();
 
     updateModalSelectedImages();
 
@@ -103,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+
   function closeGalleryModal() {
     const closeModalButton = document.querySelector('[data-js="close-gallery-modal"]');
 
@@ -110,8 +118,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     closeModalButton.addEventListener('click', function () {
       imagesGalleryModal?.classList.remove('active');
+
+      removeClassFromSelectors('[data-js="gallery-main-container"].active', 'active');
+
       removeClassFromSelectors('[data-img-item]', 'selected');
       removeClassFromSelectors('[data-images-modal-trigger]', 'active-trigger');
+
+      toggleActiveToMainGalleryArticle();
     });
 
   }
@@ -279,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  setupButtonTrigger(); // Initialize button trigger setup
+  setupButtonTrigger();
   selectModalImages();
   closeGalleryModal();
   removeImgFromPreview();

@@ -1,8 +1,11 @@
+import { initEventListeners } from ".";
 import { getLaravelCsrfToken } from "../helpers/_dom";
 
 function displayFeedbackErrors(dataErrors) {
+  const mainActiveContainer = document.querySelector('[data-js="gallery-main-container"].active');
+  if (!mainActiveContainer) return;
 
-  const errorContainer = document.querySelector('[data-js="upload-error"]');
+  const errorContainer = mainActiveContainer.querySelector('[data-js="upload-error"]');
 
   if (!errorContainer) return;
   errorContainer.innerHTML = ``;
@@ -46,10 +49,19 @@ export function uploadFiles(files) {
 
   isLoading = true;
 
-  const uploadForm = document.querySelector('[data-js="upload-form"]');
+  const mainActiveContainer = document.querySelector('[data-js="gallery-main-container"].active');
+  if (!mainActiveContainer) return;
+
+  const uploadForm =
+    mainActiveContainer.querySelector('[data-js="upload-form"]');
+
   const formData = new FormData(uploadForm);
-  const galleryContainer = document.querySelector('[data-js="gallery-container"]');
-  const errorContainer = document.querySelector('[data-js="upload-error"]');
+  
+  const galleryContainer =
+    mainActiveContainer.querySelector('[data-js="gallery-container"]');
+
+  const errorContainer =
+    mainActiveContainer.querySelector('[data-js="upload-error"]');
 
   if (!galleryContainer) console.error('No gallery container element...');
 
@@ -81,9 +93,6 @@ export function uploadFiles(files) {
       const dataSuccess = data?.success;
       const dataErrors = data?.errors;
 
-      // Remove loading cards regardless of outcome
-      loadingCards.forEach(card => card.remove());
-
       // Handle success case
       if (dataSuccess) {
         const tempDiv = document.createElement('div');
@@ -97,12 +106,7 @@ export function uploadFiles(files) {
         initEventListeners();
       }
 
-      if (dataErrors) {
-        if (loadingCard.parentNode) {
-          loadingCard.parentNode.removeChild(loadingCard);
-        }
-        displayFeedbackErrors(dataErrors);
-      }
+      if (dataErrors) displayFeedbackErrors(dataErrors);
 
     })
     .catch(error => {
@@ -111,13 +115,13 @@ export function uploadFiles(files) {
       if (errorContainer) {
         errorContainer.innerHTML = '<p>Error while trying to send files, try again.</p>';
       }
-
-      if (loadingCard.parentNode) {
-        loadingCard.parentNode.removeChild(loadingCard);
-      }
     })
     .finally(() => {
       isLoading = false;
+
+      // Remove loading cards regardless of outcome
+      loadingCards.forEach(card => card.remove());
+
       uploadForm.reset();
     });
 }

@@ -1,8 +1,10 @@
 import { debounce } from "lodash";
-import { getLaravelCsrfToken } from "../helpers/_dom";
+import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
 
 // Function to handle image file selection and preview
 function handleImageFileSelect(event) {
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
+
   const fileInput = event.target;
   const file = fileInput.files[0];
 
@@ -16,7 +18,8 @@ function handleImageFileSelect(event) {
 
   reader.onload = function (e) {
     // Find the image element in the modal and update its source
-    const editImage = document.querySelector('[data-js="edit-image"]');
+    const editImage =
+      galleryMainContainer.querySelector('[data-js="edit-image"]');
 
     if (editImage) editImage.src = e.target.result; // Set the preview image source
   };
@@ -26,8 +29,12 @@ function handleImageFileSelect(event) {
 }
 
 function setupImageClickHandler() {
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
+
   // Select all images that are editable
-  const editForm = document.querySelector('[data-js="update-form"]');
+  const editForm =
+    galleryMainContainer?.querySelector('[data-js="update-form"]');
+
   if (!editForm) return;
 
   editForm?.reset();
@@ -50,7 +57,11 @@ function setupImageClickHandler() {
 }
 
 function setEditModalValues(data) {
-  const editForm = document.querySelector('[data-js="update-form"]');
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+
+  const editForm =
+    galleryMainContainer?.querySelector('[data-js="update-form"]');
+
   if (!editForm) return;
 
   editForm?.reset();
@@ -76,7 +87,7 @@ function setEditModalValues(data) {
 
 }
 
-function fetchItem(id) {
+function fetchEditModalItem(id) {
 
   const baseUrl = getBaseUrl();
 
@@ -98,8 +109,10 @@ function fetchItem(id) {
 
       setEditModalValues(data);
 
+      const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+
       const editModal =
-        document.querySelector('[data-js="edit-modal"]');
+        galleryMainContainer?.querySelector('[data-js="edit-modal"]');
 
       if (editModal) editModal.classList.add('active');
 
@@ -107,13 +120,13 @@ function fetchItem(id) {
     .catch(error => console.error('Error fetching edit data:', error));
 }
 
-const debouncedFetchItem = debounce((dataId) => {
+const debouncedFetchEditModalItem = debounce((dataId) => {
   // console.log('Debounced fetch item files triggered:', dataId);
-  fetchItem(dataId);
+  fetchEditModalItem(dataId);
 }, 300);
 
 export function handleEditModal() {
-  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"]');
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
 
   if (!galleryMainContainer) return;
 
@@ -128,7 +141,7 @@ export function handleEditModal() {
 
     if (!editBtn) return;
 
-    debouncedFetchItem(dataId);
+    debouncedFetchEditModalItem(dataId);
 
   });
 

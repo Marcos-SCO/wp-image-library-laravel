@@ -5,8 +5,8 @@ $search = indexParamExistsOrDefault($_GET, 'search', '');
 
 @endphp
 
-<article class="gallery-main-container" data-js="gallery-main-container">
+<div class="gallery-main-container modal-gallery" data-js="gallery-main-container">
 
     @include('images-gallery.content.gallery-content')
 
-</article>
+</div>

@@ -113,7 +113,7 @@ function deleteGalleryItem(id) {
 }
 
 export function handleGalleryDeleteItems() {
-  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"]');
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
   if (!galleryMainContainer) return;
 
   galleryMainContainer.addEventListener('click', (e) => {

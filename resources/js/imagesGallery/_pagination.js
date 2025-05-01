@@ -2,6 +2,7 @@ import { debounce } from "lodash";
 import { formGetParamsQueryStringUpdate } from "../helpers/_forms";
 import { handleModalChangesAfterPagination } from "../imagesGallery/galleryModal/_handleModalChangesAfterPagination";
 import { getLaravelCsrfToken } from "../helpers/_dom";
+import { initEventListeners } from ".";
 
 function updateDataPage(dataPage = 1) {
   const currentPageInput =
@@ -19,6 +20,11 @@ function fetchPaginationData(url) {
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
 
+  let isLoading = false;
+  if (isLoading) return;
+
+  isLoading = true;
+
   fetch(url, {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -34,25 +40,24 @@ function fetchPaginationData(url) {
         return;
       }
 
-      const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"]');
-      const galleryContainer = galleryMainContainer.querySelector('[data-js="gallery-container"]');
-
-
-      const galleryMainContainerDataPage = galleryMainContainer
-        ?.getAttribute('data-page');
-
-      const isGalleryPage = galleryMainContainerDataPage == 'gallery';
+      const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+      const galleryContainer = galleryMainContainer?.querySelector('[data-js="gallery-container"]');
 
       if (!galleryContainer) {
         console.error('Gallery container not found.');
         return;
       }
 
+      const galleryMainContainerDataPage =
+        galleryMainContainer?.getAttribute('data-page');
+
+      const isGalleryPage = galleryMainContainerDataPage == 'gallery';
+
       // Update gallery content
       galleryContainer.innerHTML = data.view;
 
       // Update pagination links if included in the response
-      const paginationContainer = document.querySelector('[data-js="pagination-links-container"]');
+      const paginationContainer = galleryMainContainer?.querySelector('[data-js="pagination-links-container"]');
 
       if (paginationContainer && data.pagination) {
         paginationContainer.innerHTML = data.pagination;
@@ -70,7 +75,10 @@ function fetchPaginationData(url) {
 
       initEventListeners();
     })
-    .catch(error => console.error('Error fetching pagination data:', error));
+    .catch(error => console.error('Error fetching pagination data:', error))
+    .finally(() => {
+      isLoading = false;
+    });
 }
 
 const debouncedPaginationData = debounce((url, dataPage) => {
@@ -82,7 +90,8 @@ const debouncedPaginationData = debounce((url, dataPage) => {
 
 // Function to handle pagination via event delegation
 function handlePagination() {
-  const paginationContainer = document.querySelector('[data-js="pagination-links-container"]');
+  const paginationContainer =
+    document.querySelector('.gallery-main-container.active [data-js="pagination-links-container"]');
 
   if (!paginationContainer) return;
 
