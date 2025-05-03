@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import { debounce } from "lodash";
 import { fetchPaginationData, updateDataPage } from "./_pagination";
 import { getBaseUrl, getLaravelCsrfToken } from '../helpers/_dom';
+import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from './_loading';
 
 function removeImageFromAllPreviews(imageId) {
   const previews = document.querySelectorAll('.preview-image');
@@ -41,6 +42,10 @@ function removeImageFromAllPreviews(imageId) {
 
 const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
 
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+
+  if (!galleryMainContainer) console.error('No gallery main container found...');
+
   let isLoading = false;
   if (isLoading) return;
 
@@ -53,6 +58,8 @@ const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
+
+  triggerLoadingAnimationFor(galleryMainContainer);
 
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'DELETE',
@@ -73,12 +80,19 @@ const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
       // Remove the gallery item
       galleryItem.remove();
 
+      Swal.fire({
+        title: 'Deleted!',
+        text: 'Your image was deleted.',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
       removeImageFromAllPreviews(id);
 
       // const deleteModal = document.querySelector('[data-js="delete-modal"]');
 
-      // Check if the gallery container is empty after deletion
-      const galleryContainer = document.querySelector('[data-js="gallery-container"]');
+      const galleryContainer = galleryMainContainer.querySelector('[data-js="gallery-container"]');
       if (!galleryContainer) return;
 
       const itemsLeft = galleryContainer.children.length;
@@ -100,6 +114,8 @@ const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
     .catch(error => console.error('Error deleting image:', error))
     .finally(() => {
       isLoading = false;
+
+      removeLoadingAnimationFor(galleryMainContainer);
     });
 
 }, 300); // 300ms debounce delay
@@ -143,14 +159,6 @@ export function handleGalleryDeleteItems() {
       if (!result.isConfirmed) return;
 
       deleteGalleryItem(dataId);
-
-      Swal.fire({
-        title: 'Deleted!',
-        text: 'Your image was deleted.',
-        icon: 'success',
-        showConfirmButton: false,
-        timer: 1500
-      });
     });
   };
 

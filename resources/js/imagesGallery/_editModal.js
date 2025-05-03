@@ -1,5 +1,6 @@
 import { debounce } from "lodash";
 import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
+import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 
 // Function to handle image file selection and preview
 function handleImageFileSelect(event) {
@@ -94,6 +95,10 @@ function fetchEditModalItem(id) {
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
 
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+
+  triggerLoadingAnimationFor(galleryMainContainer);
+
   fetch(`${baseUrl}/gallery/${id}/show`, {
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
@@ -109,15 +114,16 @@ function fetchEditModalItem(id) {
 
       setEditModalValues(data);
 
-      const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
-
       const editModal =
         galleryMainContainer?.querySelector('[data-js="edit-modal"]');
 
       if (editModal) editModal.classList.add('active');
 
     })
-    .catch(error => console.error('Error fetching edit data:', error));
+    .catch(error => console.error('Error fetching edit data:', error))
+    .finally(() => {
+      removeLoadingAnimationFor(galleryMainContainer);
+    })
 }
 
 const debouncedFetchEditModalItem = debounce((dataId) => {

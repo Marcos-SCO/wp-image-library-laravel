@@ -3,6 +3,7 @@ import { formGetParamsQueryStringUpdate } from "../helpers/_forms";
 import { handleModalChangesAfterPagination } from "../imagesGallery/galleryModal/_handleModalChangesAfterPagination";
 import { getLaravelCsrfToken } from "../helpers/_dom";
 import { initEventListeners } from ".";
+import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 
 function updateDataPage(dataPage = 1) {
   const currentPageInput =
@@ -14,7 +15,6 @@ function updateDataPage(dataPage = 1) {
   currentPageInput.setAttribute('value', dataPage);
 }
 
-
 function fetchPaginationData(url) {
 
   const csrfToken = getLaravelCsrfToken();
@@ -24,6 +24,12 @@ function fetchPaginationData(url) {
   if (isLoading) return;
 
   isLoading = true;
+
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+
+  if (!galleryMainContainer) console.error('No gallery main container found...');
+
+  triggerLoadingAnimationFor(galleryMainContainer);
 
   fetch(url, {
     headers: {
@@ -39,8 +45,7 @@ function fetchPaginationData(url) {
         window.location.href = data.redirect;
         return;
       }
-
-      const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
+    
       const galleryContainer = galleryMainContainer?.querySelector('[data-js="gallery-container"]');
 
       if (!galleryContainer) {
@@ -78,6 +83,8 @@ function fetchPaginationData(url) {
     .catch(error => console.error('Error fetching pagination data:', error))
     .finally(() => {
       isLoading = false;
+
+      removeLoadingAnimationFor(galleryMainContainer);
     });
 }
 

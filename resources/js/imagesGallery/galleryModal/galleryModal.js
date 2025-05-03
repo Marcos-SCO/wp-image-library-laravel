@@ -9,6 +9,7 @@ import { getBaseUrl } from "../../helpers/_dom";
 import { formInputsChange } from "../form";
 import { toggleActiveToMainGalleryArticle } from "../_closeModals";
 import { initEventListeners } from "..";
+import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "../_loading";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -43,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function requestModalItem() {
     const url = getBaseUrl() + '/gallery/modal/';
 
+    triggerLoadingAnimationFor('body');
+
     fetch(url)
       .then(response => response.text())
       .then(html => {
@@ -64,7 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         updateModalSelectedImages();
       })
-      .catch(error => console.error('Error loading gallery:', error));
+      .catch(error => console.error('Error loading gallery:', error))
+      .finally(() => {
+        
+        removeLoadingAnimationFor('body');
+      });
   }
 
   function openModalGallery() {

@@ -2,12 +2,23 @@ import { debounce } from "lodash";
 import { formDataToJson } from '../helpers/_json';
 import { fileToBase64 } from "../helpers/_files";
 import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
+import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 
 function updatedRequest(id, jsonData) {
   const baseUrl = getBaseUrl();
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
+
+  const activeEditModal = document.querySelector('[data-js="edit-modal"].active');
+
+  if (!activeEditModal) return;
+
+  const submitButton = activeEditModal.querySelector('button[type="submit"]');
+
+  submitButton.innerText = 'Updating...';
+
+  // triggerLoadingAnimationFor(activeEditModal);
 
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'PUT',
@@ -35,11 +46,15 @@ function updatedRequest(id, jsonData) {
 
       console.log(data, 'updated');
 
-      const activeEditModal = document.querySelector('[data-js="edit-modal"].active');
-
-      if (activeEditModal) activeEditModal.classList.remove('active');
+      activeEditModal.classList.remove('active');
     })
-    .catch(error => console.error('Error updating image:', error));
+    .catch(error => console.error('Error updating image:', error))
+    .finally(() => {
+
+      // removeLoadingAnimationFor(activeEditModal);
+
+      submitButton.innerText = 'save';
+    });
 }
 
 const debouncedUpdateRequest = debounce((id, dataJson) => {
@@ -48,7 +63,7 @@ const debouncedUpdateRequest = debounce((id, dataJson) => {
 }, 300);
 
 async function handleUpdateFormSubmit() {
-  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
+  const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
 
   const updateForm = galleryMainContainer?.querySelector('[data-js="update-form"]');
   if (!updateForm) return;
