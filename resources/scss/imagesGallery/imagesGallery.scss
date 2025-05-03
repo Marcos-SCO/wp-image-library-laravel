@@ -3,6 +3,8 @@
 @forward './paginationLinks';
 @forward './imgPreview';
 
+@forward './cards';
+
 .gallery-main-container {
   padding: .5rem;
   background-color: #f9f9f9;
@@ -39,7 +41,8 @@
       border: 2px solid #ddd;
       // border: 2px solid transparent;
 
-      border-radius: 4px;
+      // border-radius: 4px;
+      border-radius: 10px;
       overflow: hidden;
       position: relative;
       width: calc(33.333% - 20px);

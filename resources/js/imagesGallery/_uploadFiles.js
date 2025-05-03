@@ -1,6 +1,15 @@
 import { initEventListeners } from ".";
 import { getLaravelCsrfToken } from "../helpers/_dom";
 
+function emptyFeedbackErrors(element) {
+  const isHtmlDom = element instanceof HTMLElement;
+
+  const errorContainer = isHtmlDom ? element : document.querySelector(element);
+
+  if (!errorContainer) return;
+  errorContainer.innerHTML = ``;
+}
+
 function displayFeedbackErrors(dataErrors) {
   const mainActiveContainer = document.querySelector('[data-js="gallery-main-container"].active');
   if (!mainActiveContainer) return;
@@ -28,11 +37,11 @@ function displayFeedbackErrors(dataErrors) {
 
 function createLoadingCard() {
   const card = document.createElement('div');
-  card.classList.add('gallery-card', 'loading-card');
+  card.classList.add('gallery-item', 'loading-card', 'loading');
   card.setAttribute('data-js', 'upload-loading-card');
 
   card.innerHTML = `
-  <div class="gallery-item loading-thumbnail">
+  <div class="loading-thumbnail">
   
   <span>Uploading...</span>
   </div>
@@ -56,7 +65,7 @@ export function uploadFiles(files) {
     mainActiveContainer.querySelector('[data-js="upload-form"]');
 
   const formData = new FormData(uploadForm);
-  
+
   const galleryContainer =
     mainActiveContainer.querySelector('[data-js="gallery-container"]');
 
@@ -78,6 +87,8 @@ export function uploadFiles(files) {
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
+
+  emptyFeedbackErrors('[data-js="gallery-main-container"].active [data-js="upload-error"]');
 
   fetch(uploadForm.action, {
     method: 'POST',
