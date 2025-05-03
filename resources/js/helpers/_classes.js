@@ -9,8 +9,11 @@ function removeClassFromSelectors(elementSelector, classElement) {
 
 function removeClassFromElement(element, classToAdd = '') {
   if (!element) return;
+  const isHtmlDom = element instanceof HTMLElement;
 
-  element.classList.remove(classToAdd);
+  const elementItem = isHtmlDom ? element : document.querySelector(element);
+
+  elementItem?.classList.remove(classToAdd);
 }
 
 function removeClassToElements(elements, classToAdd) {
@@ -22,7 +25,11 @@ function removeClassToElements(elements, classToAdd) {
 function addClassToElement(element, classToAdd = '') {
   if (!element) return;
 
-  element.classList.add(classToAdd);
+  const isHtmlDom = element instanceof HTMLElement;
+
+  const elementItem = isHtmlDom ? element : document.querySelector(element);
+
+  elementItem?.classList.add(classToAdd);
 }
 
 function addClassToElements(elements, classToAdd) {
@@ -34,7 +41,11 @@ function addClassToElements(elements, classToAdd) {
 function toggleClassToElement(element, classToAdd = '') {
   if (!element) return;
 
-  element.classList.toggle(classToAdd);
+  const isHtmlDom = element instanceof HTMLElement;
+
+  const elementItem = isHtmlDom ? element : document.querySelector(element);
+
+  elementItem?.classList.toggle(classToAdd);
 }
 
 function toggleClassToElements(elements, classToAdd) {
