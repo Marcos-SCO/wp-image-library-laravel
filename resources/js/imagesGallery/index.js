@@ -8,6 +8,7 @@ import { handleEditModal } from './_editModal.js';
 import { handleGalleryDeleteItems } from './_deleteModal.js';
 import { dropDownImgUpload } from './_dropDownImgUpload.js';
 import { formInputsChange } from './form';
+import { activateLoadingWrapper } from '../helpers/_imageLoad.js';
 
 function initEventListeners() {
   handlePagination();
@@ -19,6 +20,8 @@ function initEventListeners() {
   handleUpdateFormSubmit();
 
   formInputsChange();
+
+  activateLoadingWrapper();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
