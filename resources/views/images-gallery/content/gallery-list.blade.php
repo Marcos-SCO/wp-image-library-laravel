@@ -19,6 +19,7 @@ $imgPath = objParamExistsOrDefault($image, 'file_path');
 $imgUrl = Storage::url($imgPath);
 
 $imgAlt = objParamExistsOrDefault($image,'alt_text', '');
+$imgDescription = objParamExistsOrDefault($image, 'description');
 
 @endphp
 
@@ -31,6 +32,9 @@ $imgAlt = objParamExistsOrDefault($image,'alt_text', '');
       src="{{ $imgUrl }}"
       alt="{{ $imgAlt }}"
       title="{{ $imgAlt }}"
+      data-img-alt="{{ $imgAlt }}"
+      data-img-description="{{ $imgDescription }}"
+      data-img-path="{{ $imgPath }}"
       data-img-url="{{ $imgUrl }}"
       data-img-item="{{ $imgId }}"
       class="gallery-image"

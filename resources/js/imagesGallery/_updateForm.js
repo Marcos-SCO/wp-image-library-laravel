@@ -4,6 +4,30 @@ import { fileToBase64 } from "../helpers/_files";
 import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 
+function updateGalleryItemDomInfo(dataId, galleryItemUpdatedObj) {
+  const clickedGalleryITemImgs = document.querySelectorAll(`[data-gallery-item="${dataId}"] .image-wrapper img`);
+
+  if (!clickedGalleryITemImgs) return;
+
+  const baseUrl = getBaseUrl();
+
+  const galleryItemInfoUpdateObj = function (galleryItem, galleryItemUpdatedObj) {
+
+    const { file_path, img_url, alt_text, description } = galleryItemUpdatedObj;
+
+    galleryItem.src = baseUrl + '/storage/' + file_path;
+
+    galleryItem.setAttribute('data-img-path', file_path ?? '');
+    galleryItem.setAttribute('data-img-url', img_url ?? '');
+    galleryItem.setAttribute('data-img-alt', alt_text ?? '');
+    galleryItem.setAttribute('data-img-description', description ?? '');
+  }
+
+  clickedGalleryITemImgs.forEach(galleryItem => {
+    galleryItemInfoUpdateObj(galleryItem, galleryItemUpdatedObj);
+  });
+}
+
 function updatedRequest(id, jsonData) {
   const baseUrl = getBaseUrl();
 
@@ -37,14 +61,16 @@ function updatedRequest(id, jsonData) {
         return;
       }
 
-      const updatedImage = data.updated_image;
-      const imageElement = document.querySelector(`[data-gallery-item="${updatedImage.id}"] .gallery-image`);
+      const updatedImageData = data.updated_image;
+      const imageElement = document.querySelector(`[data-gallery-item="${updatedImageData.id}"] .gallery-image`);
 
       if (imageElement) {
-        imageElement.src = baseUrl + '/storage/' + updatedImage.file_path;
+        imageElement.src = baseUrl + '/storage/' + updatedImageData.file_path;
       }
 
       console.log(data, 'updated');
+
+      updateGalleryItemDomInfo(id, updatedImageData);
 
       activeEditModal.classList.remove('active');
     })
@@ -57,21 +83,36 @@ function updatedRequest(id, jsonData) {
     });
 }
 
+async function updateImgInFormdata(updateForm, formData) {
+  // Check if a new image file is selected
+  const fileInput = updateForm?.querySelector('input[type="file"]');
+
+  if (fileInput && fileInput?.files.length > 0) {
+    const { base64, name, type } = await fileToBase64(fileInput.files[0]);
+
+    formData.append('image', base64);
+    formData.append('image_name', name);
+    formData.append('image_type', type);
+  }
+
+  // console.log(formDataToJson(formData), 'form data in updateImgInFormdata');
+
+  return formData;
+}
+
 const debouncedUpdateRequest = debounce((id, dataJson) => {
   // console.log('Debounced update fetch:', dataJson);
   updatedRequest(id, dataJson);
 }, 300);
 
-async function handleUpdateFormSubmit() {
+function handleUpdateFormSubmit() {
   const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
 
   const updateForm = galleryMainContainer?.querySelector('[data-js="update-form"]');
   if (!updateForm) return;
 
   // Remove any previous submit handler
-  if (updateForm._submitHandler) {
-    updateForm.removeEventListener('submit', updateForm._submitHandler);
-  }
+  if (updateForm._submitHandler) updateForm.removeEventListener('submit', updateForm._submitHandler);
 
   updateForm._submitHandler = async function (e) {
     e.preventDefault();
@@ -88,19 +129,11 @@ async function handleUpdateFormSubmit() {
 
     const formData = new FormData(updateForm);
 
-    // Check if a new image file is selected
-    const fileInput = updateForm.querySelector('input[type="file"]');
-
-    if (fileInput && fileInput.files.length > 0) {
-      const { base64, name, type } =
-        await fileToBase64(fileInput.files[0]);
-
-      formData.append('image', base64);
-      formData.append('image_name', name);
-      formData.append('image_type', type);
-    }
+    await updateImgInFormdata(updateForm, formData);
 
     const jsonData = formDataToJson(formData);
+
+    // console.log(jsonData);
 
     debouncedUpdateRequest(id, jsonData);
   };
@@ -109,5 +142,6 @@ async function handleUpdateFormSubmit() {
 }
 
 export {
-  handleUpdateFormSubmit
+  handleUpdateFormSubmit,
+  updateImgInFormdata
 }

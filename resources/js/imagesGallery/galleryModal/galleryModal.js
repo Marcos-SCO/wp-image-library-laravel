@@ -1,13 +1,7 @@
 import Swal from "sweetalert2";
 import { addClassToElement, removeClassFromSelectors } from "../../helpers/_classes";
-import { handleGalleryDeleteItems } from "../_deleteModal";
-import { dropDownImgUpload } from "../_dropDownImgUpload";
-import { handleEditModal } from "../_editModal";
-import { handlePagination } from "../_pagination";
-import { handleUpdateFormSubmit } from "../_updateForm";
 import { getBaseUrl } from "../../helpers/_dom";
-import { formInputsChange } from "../form";
-import { toggleActiveToMainGalleryArticle } from "../_closeModals";
+import { activeToMainGalleryArticle } from "../_closeModals";
 import { initEventListeners } from "..";
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "../_loading";
 
@@ -131,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
       removeClassFromSelectors('[data-img-item]', 'selected');
       removeClassFromSelectors('[data-images-modal-trigger]', 'active-trigger');
 
-      toggleActiveToMainGalleryArticle();
+      activeToMainGalleryArticle();
     });
 
   }

@@ -12,7 +12,7 @@ function handleImageLoad(img) {
 function activateLoadingWrapper() {
     const images = document.querySelectorAll("[data-js='image-loading-wrapper'] img");
 
-    console.log(images);
+    // console.log(images);
 
     images.forEach((img) => {
         let isImgComplete = img.complete;

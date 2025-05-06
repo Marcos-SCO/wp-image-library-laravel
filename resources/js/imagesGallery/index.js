@@ -16,10 +16,10 @@ function initEventListeners() {
   handleEditModal();
   handleGalleryDeleteItems();
   
+  formInputsChange();
+
   dropDownImgUpload();
   handleUpdateFormSubmit();
-
-  formInputsChange();
 
   activateLoadingWrapper();
 }
