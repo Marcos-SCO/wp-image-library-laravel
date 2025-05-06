@@ -38,11 +38,14 @@ function updatedRequest(id, jsonData) {
 
   if (!activeEditModal) return;
 
-  const submitButton = activeEditModal.querySelector('button[type="submit"]');
+  const modalContent = activeEditModal?.querySelector('.modal-content');
+
+  const submitButton =
+    modalContent.querySelector('button[type="submit"]');
 
   submitButton.innerText = 'Updating...';
 
-  // triggerLoadingAnimationFor(activeEditModal);
+  triggerLoadingAnimationFor(modalContent, 'Updating...');
 
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'PUT',
@@ -68,7 +71,7 @@ function updatedRequest(id, jsonData) {
         imageElement.src = baseUrl + '/storage/' + updatedImageData.file_path;
       }
 
-      console.log(data, 'updated');
+      // console.log(data, 'updated');
 
       updateGalleryItemDomInfo(id, updatedImageData);
 
@@ -77,7 +80,7 @@ function updatedRequest(id, jsonData) {
     .catch(error => console.error('Error updating image:', error))
     .finally(() => {
 
-      // removeLoadingAnimationFor(activeEditModal);
+      removeLoadingAnimationFor(modalContent);
 
       submitButton.innerText = 'save';
     });

@@ -1,4 +1,4 @@
-function triggerLoadingAnimationFor(element) {
+function triggerLoadingAnimationFor(element, loadingTextMessage = 'Loading...') {
     if (!element) return;
     
     const isHtmlDom = element instanceof HTMLElement;
@@ -12,7 +12,7 @@ function triggerLoadingAnimationFor(element) {
     const loader = document.createElement('div');
     loader.setAttribute('data-js', 'loader');
     loader.className = 'loader';
-    loader.innerHTML = 'Loading...';
+    loader.innerHTML = loadingTextMessage;
 
     targetItem?.appendChild(loader);
 }
