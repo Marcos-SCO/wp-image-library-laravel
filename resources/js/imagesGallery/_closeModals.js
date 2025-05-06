@@ -3,7 +3,7 @@ import { removeClassFromSelectors } from "../helpers/_classes";
 import { handleEditModal } from "./_editModal";
 import { formInputsChange } from "./form";
 
-function toggleActiveToMainGalleryArticle() {
+function activeToMainGalleryArticle() {
   const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].gallery-page');
 
   if (!galleryMainContainer) return;
@@ -39,7 +39,7 @@ function handleEscKeyCloseLightModal() {
 
     // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
 
-    toggleActiveToMainGalleryArticle();
+    activeToMainGalleryArticle();
   });
 }
 
@@ -60,7 +60,7 @@ function closeModalButtonListener() {
 
     // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
 
-    toggleActiveToMainGalleryArticle();
+    activeToMainGalleryArticle();
   })
 }
 
@@ -84,7 +84,7 @@ function closeLastActiveOutsideClickListener() {
 
     // formInputsChange(false, '.gallery-page [data-js="main-search-inputs-form"]');
 
-    toggleActiveToMainGalleryArticle();
+    activeToMainGalleryArticle();
   })
 }
 
@@ -95,5 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export {
-  toggleActiveToMainGalleryArticle
+  activeToMainGalleryArticle
 }
