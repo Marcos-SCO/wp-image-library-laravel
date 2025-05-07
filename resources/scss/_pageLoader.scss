@@ -35,15 +35,21 @@
         font-size: 1.75rem;
         color: #fff;
 
-        text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
-
         z-index: 9;
 
+        box-shadow: 0 0 8px rgb(0 0 0 / 24%);
+
+        padding: .5rem 1rem;
+        border-radius: 4px;
+        background-color: #007bff;
+    
         &::after {
             content: '';
             display: inline-block;
             width: 1em;
             height: 1em;
+            margin-top: .5rem;
+            margin-left: .5rem;
             border: 0.15em solid currentColor;
             border-radius: 50%;
             border-top-color: transparent;
