@@ -82,6 +82,11 @@ export function uploadFiles(files) {
     const loadingCard = createLoadingCard();
     loadingCards.push(loadingCard);
     galleryContainer.insertBefore(loadingCard, galleryContainer.firstChild);
+
+    if (galleryContainer.children.length > 12) {
+
+      galleryContainer.removeChild(galleryContainer.lastElementChild);
+    }
   });
 
   const csrfToken = getLaravelCsrfToken();
@@ -102,6 +107,8 @@ export function uploadFiles(files) {
 
       const dataSuccess = data?.success;
       const dataErrors = data?.errors;
+
+      console.log(data);
 
       // Handle success case
       if (dataSuccess) {
