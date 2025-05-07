@@ -1,7 +1,7 @@
 import { debounce } from "lodash";
 import { formGetParamsQueryStringUpdate } from "../helpers/_forms";
 import { handleModalChangesAfterPagination } from "../imagesGallery/galleryModal/_handleModalChangesAfterPagination";
-import { getLaravelCsrfToken } from "../helpers/_dom";
+import { getLaravelCsrfToken, scrollToHtmlElement } from "../helpers/_dom";
 import { initEventListeners } from ".";
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 
@@ -29,6 +29,8 @@ function fetchPaginationData(url) {
 
   if (!galleryMainContainer) console.error('No gallery main container found...');
 
+  const searchTypeContainer = galleryMainContainer?.querySelector('.search-type-container');
+
   triggerLoadingAnimationFor(galleryMainContainer);
 
   fetch(url, {
@@ -45,7 +47,7 @@ function fetchPaginationData(url) {
         window.location.href = data.redirect;
         return;
       }
-    
+
       const galleryContainer = galleryMainContainer?.querySelector('[data-js="gallery-container"]');
 
       if (!galleryContainer) {
@@ -77,6 +79,11 @@ function fetchPaginationData(url) {
       if (!isGalleryPage) {
         handleModalChangesAfterPagination();
       }
+
+      const scrollContainer = isGalleryPage
+        ? window : document.querySelector('.modal-content');  
+
+      if (searchTypeContainer) scrollToHtmlElement(searchTypeContainer, 50, scrollContainer);
 
       initEventListeners();
     })
