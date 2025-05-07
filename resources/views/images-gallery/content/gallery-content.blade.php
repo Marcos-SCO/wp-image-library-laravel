@@ -1,7 +1,15 @@
+@php use \App\Helpers\Classes\SvgHelper; @endphp
+
 <form data-js="main-search-inputs-form" action="{{ route('gallery.index') }}">
-  <div>
-    <label for="search-images">{{ __('Search for Images') }}</label>
-    <input type="text" name="search" data-js="search-input" value="{{ $search }}" id="search-images" placeholder="{{ __('Find typing...') }}">
+  <div class="search-type-container">
+    <label for="search-images">
+      {!! SvgHelper::getSvg('search-icon'); !!}
+      <span>{{ __('Search for Images') }}</span>
+    </label>
+    <div class="input-container">
+      <input type="text" name="search" data-js="search-input" value="{{ $search }}" id="search-images" placeholder="Search" @if (!empty($search)) autofocus @endif>
+      <span class="input-line"></span>
+    </div>
   </div>
 
   <input type="hidden" name="page" data-current-page="{{ $page }}" value="{{ $page }}">
@@ -18,7 +26,7 @@
     <div class="drop-zone" data-js="drop-zone">
       <p>{{ __('Drag or drop images here') }}</p>
     </div>
-    
+
     <div data-js="upload-error" style="color: red;"></div>
   </form>
 </div>
@@ -60,7 +68,7 @@
 
       <button type="submit">{{ __('Save') }}</button>
 
-      <button class="close-button"  type="button" data-js="close-edit-modal" close-modal>{!! App\Helpers\Classes\SvgHelper::getSvg('close-icon', 'assets/svg'); !!}</button>
+      <button class="close-button" type="button" data-js="close-edit-modal" close-modal>{!! App\Helpers\Classes\SvgHelper::getSvg('close-icon', 'assets/svg'); !!}</button>
 
     </form>
   </div>

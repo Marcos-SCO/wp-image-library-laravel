@@ -26,6 +26,115 @@
     }
   }
 
+  .search-type-container {
+    position: relative;
+
+    label {
+      cursor: pointer;
+
+      position: absolute;
+
+      top: 50%;
+      transform: translate(0, -50%);
+      color: #7a7a7a;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      transition: opacity .2s;
+
+      width: 100%;
+
+      svg {
+        height: 15px;
+        width: 15px;
+        margin-right: .2rem;
+        margin-top: .15rem;
+
+        path {
+          stroke: #7a7a7a;
+        }
+      }
+    }
+    
+    &:has(input:not(:placeholder-shown)), 
+    &:has(input:focus) {
+      &>label {
+        opacity: 0;
+      }
+    }
+
+    .input-line {
+      min-height: 2px;
+      padding: 0;
+
+      color: inherit;
+      display: flex;
+
+      padding-top: 4px;
+
+      flex: 1 0 100%;
+      font-size: 12px;
+
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+
+      &::after {
+        content: "";
+        background-color: #007bff;
+        color: inherit;
+        top: 0;
+        height: 2px;
+
+        transform: scaleX(0);
+
+        transform-origin: center center 0;
+        width: 100%;
+        z-index: 1;
+
+        position: absolute;
+        left: 0;
+        transition: .3s cubic-bezier(.4, 0, .2, 1);
+      }
+    }
+
+    .input-container {
+      input {
+        text-align: center;
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        background-color: transparent;
+        border-style: none;
+
+        &::placeholder {
+          opacity: 0;
+        }
+
+        &:focus {
+
+          outline: none;
+
+          &+label {
+            opacity: 0;
+          }
+
+          &+.input-line {
+            &::after {
+              transform: scaleX(1);
+            }
+          }
+        }
+      }
+
+    }
+
+  }
+
   // Gallery Items
   [data-js="gallery-container"] {
     display: flex;
@@ -57,7 +166,7 @@
 
       min-height: 250px;
       max-height: 250px;
-  
+
       min-width: 100%;
 
       margin-bottom: 2rem;
@@ -123,9 +232,9 @@
         max-width: 266px;
       }
 
-      
+
     }
-    
+
     @media (min-width: 1280px) {
       justify-content: start;
     }
