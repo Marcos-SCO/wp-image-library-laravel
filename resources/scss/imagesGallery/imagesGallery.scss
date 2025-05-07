@@ -11,6 +11,12 @@
   display: none;
 }
 
+body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown),
+body.swal2-shown {
+  overflow: auto !important;
+  padding-right: 0!important;
+}
+
 .gallery-main-container {
   // padding: 1rem .5rem;
   padding: 2rem 1rem;
@@ -319,15 +325,15 @@
       }
 
       @media (min-width: 1100px) {
-        min-width: 23%;
-        max-width: 23%;
+        min-width: 23.9%;
+        max-width: 23.9%;
       }
 
     }
 
     @media (min-width: 1280px) {
       // justify-content: start;
-      justify-content: space-between;
+      justify-content: center;
     }
   }
 
