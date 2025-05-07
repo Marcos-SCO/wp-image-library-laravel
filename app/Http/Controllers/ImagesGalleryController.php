@@ -61,7 +61,13 @@ class ImagesGalleryController extends Controller
 
         $isCurrentPageGreaterThanLast = $images->currentPage() > $images->lastPage();
 
-        if ($isCurrentPageGreaterThanLast) {
+        
+        if ($isCurrentPageGreaterThanLast && !($request->ajax())) {
+
+            return redirect()->to(url()->current() . '?page=' . $images->lastPage());
+        }
+
+        if ($isCurrentPageGreaterThanLast && $request->ajax()) {
 
             return response()->json([
                 'redirect' => url()->current() . '?page=' . $images->lastPage(),
@@ -200,7 +206,6 @@ class ImagesGalleryController extends Controller
                 'success' => true,
                 'updated_image' => $image,
             ]);
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->errors()], 422);
         }
@@ -219,7 +224,6 @@ class ImagesGalleryController extends Controller
             $image->delete();
 
             return response()->json(['success' => 'Image deleted successfully!']);
-
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Image not found'], 404);
         }
