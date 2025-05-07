@@ -40,7 +40,7 @@ function removeImageFromAllPreviews(imageId) {
 }
 
 
-const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
+const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
 
   const galleryMainContainer = document.querySelector('[data-js="gallery-main-container"].active');
 
@@ -77,8 +77,8 @@ const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
         return;
       }
 
-      // Remove the gallery item
-      galleryItem.remove();
+      // Mark removed item for gallery items with id
+      if (galleryItemsWithId) Array.from(galleryItemsWithId).forEach(galleryItem => galleryItem.classList.add('removed-item'));
 
       Swal.fire({
         title: 'Deleted!',
@@ -121,11 +121,13 @@ const debounceDeleteGalleryItem = debounce((id, galleryItem) => {
 }, 300); // 300ms debounce delay
 
 function deleteGalleryItem(id) {
-  const galleryItem = document.querySelector(`[data-gallery-item="${id}"]`);
-  if (!galleryItem) return;
+  const galleryItemsWithId =
+    document.querySelectorAll(`[data-gallery-item="${id}"]`);
+
+  if (!galleryItemsWithId) return;
 
   // Trigger the debounced delete function
-  debounceDeleteGalleryItem(id, galleryItem);
+  debounceDeleteGalleryItem(id, galleryItemsWithId);
 }
 
 export function handleGalleryDeleteItems() {
