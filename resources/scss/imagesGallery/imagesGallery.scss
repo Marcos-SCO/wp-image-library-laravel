@@ -157,8 +157,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    // justify-content: space-evenly;
-    justify-content: center;
+    justify-content: space-evenly;
 
     gap: 1rem;
 
@@ -243,6 +242,12 @@
         }
       }
 
+      @media (min-width: 500px) {
+        max-width: 48%;
+        min-width: 46%;
+      }
+
+      // @media (min-width: 700px)
       @media (min-width: 700px) {
         margin: 0;
 
@@ -251,10 +256,17 @@
         // margin-bottom: 2rem;
         // margin-bottom: 1rem;
 
-        min-width: 266px;
-        max-width: 266px;
+        // min-width: 266px;
+        // max-width: 266px;
+
+        min-width: 31%;
+        max-width: 31%;
       }
 
+      @media (min-width: 1100px) {
+        min-width: 23%;
+        max-width: 23%;
+      }
 
     }
 
