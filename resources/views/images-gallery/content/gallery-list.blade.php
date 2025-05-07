@@ -79,7 +79,7 @@ $imgDescription=objParamExistsOrDefault($image, 'description' );
 
 @php // Add dummy empty slots if less than 12
   $isUploadRequest = isset($uploadRequest) && $uploadRequest;
-  $remainingSlots = 12 - $imagesLoopCount;
+  $remainingSlots = $imagesLoopCount > 8 ? 12 - $imagesLoopCount : 0;
 @endphp
 
 @if(!$isUploadRequest && !$isEmptyImages)
