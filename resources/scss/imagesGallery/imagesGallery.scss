@@ -219,10 +219,17 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
       }
 
-      min-height: 250px;
-      max-height: 250px;
+      // min-height: 250px;
+      // max-height: 250px;
+      min-height: 200px;
+      max-height: 200px;
 
       min-width: 100%;
+
+      @media (min-width: 700px) {
+        min-height: 210px;
+        max-height: 210px;
+      }
 
       // margin-bottom: 2rem;
 

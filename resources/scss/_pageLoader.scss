@@ -32,7 +32,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 9999;
-        font-size: 1.75rem;
+        font-size: 1.25rem;
         color: #fff;
 
         z-index: 9;
@@ -42,7 +42,11 @@
         padding: .5rem 1rem;
         border-radius: 4px;
         background-color: #007bff;
-    
+
+        @media (min-width: 700px) {
+            font-size: 1.55rem;
+        }
+
         &::after {
             content: '';
             display: inline-block;
