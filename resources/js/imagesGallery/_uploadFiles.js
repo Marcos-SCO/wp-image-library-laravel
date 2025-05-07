@@ -41,11 +41,10 @@ function createLoadingCard() {
   card.setAttribute('data-js', 'upload-loading-card');
 
   card.innerHTML = `
-  <div class="loading-thumbnail">
-  
-  <span>Uploading...</span>
-  </div>
-  `;
+  <div class="image-wrapper">
+      <div class="image-loader"></div>
+      <span>Uploading...</span>
+  </div>`;
 
   return card;
 }
