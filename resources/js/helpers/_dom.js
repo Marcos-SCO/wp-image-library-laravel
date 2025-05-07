@@ -17,21 +17,20 @@ function getLaravelCsrfToken() {
     return csrfToken;
 }
 
-function scrollToHtmlElement(element, offset = 50) {
+function scrollToHtmlElement(element, offset = 50, container = window) {
     const isHtmlDom = element instanceof HTMLElement;
-
-    const targetElement =
-        isHtmlDom ? element : document.querySelector(element);
-
+    const targetElement = isHtmlDom ? element : document.querySelector(element);
     if (!targetElement) return;
 
-    const elementPosition =
-        targetElement.getBoundingClientRect().top + window.scrollY;
+    const scrollContainer = container instanceof HTMLElement
+        ? container : window;
 
-    const offsetPosition = elementPosition - offset;
+    const containerTop = scrollContainer === window ? 0 : scrollContainer.getBoundingClientRect().top;
+    const elementTop = targetElement.getBoundingClientRect().top;
+    const scrollOffset = elementTop - containerTop + scrollContainer.scrollTop - offset;
 
-    window.scrollTo({
-        top: offsetPosition,
+    scrollContainer.scrollTo({
+        top: scrollOffset,
         behavior: 'smooth'
     });
 }
