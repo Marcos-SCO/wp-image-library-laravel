@@ -31,7 +31,7 @@ $classIfNoImageDisplayNone = $images->isEmpty() ? ' d-none' : '';
       <p>{{ __('Drag and drop images here') }}</p>
     </div>
 
-    <div data-js="upload-error" style="color: red;"></div>
+    <div data-js="upload-error" style="color: red; margin-bottom:1.5rem;"></div>
   </form>
 </div>
 
