@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <main class="main-container container mt-4 mb-5">
+  <main class="main-container mt-4 mb-5">
 
     @yield('content')
   </main>

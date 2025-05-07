@@ -6,8 +6,23 @@
 @forward './cards';
 
 .gallery-main-container {
-  padding: .5rem;
+  // padding: 1rem .5rem;
+  padding: 2rem 1rem;
   background-color: #f9f9f9;
+
+  // max-width: 1180px;
+  max-width: 1208px;
+  margin: auto;
+
+  // box-shadow: 0 0 47px rgb(0 0 0 / 15%);
+  box-shadow: 0 0 47px rgb(0 0 0 / 9%);
+
+  .image-upload-form,
+  form[data-js="main-search-inputs-form"],
+  [data-js="gallery-container"] {
+    max-width: 1115px;
+    margin: auto;
+  }
 
   // Form styles
   form[data-js="main-search-inputs-form"] {
@@ -58,8 +73,9 @@
         }
       }
     }
-    
-    &:has(input:not(:placeholder-shown)), 
+
+    &:has(input:not(:placeholder-shown)),
+    &:has(input:target),
     &:has(input:focus) {
       &>label {
         opacity: 0;
@@ -115,6 +131,7 @@
           opacity: 0;
         }
 
+        &:target,
         &:focus {
 
           outline: none;
@@ -140,7 +157,10 @@
     display: flex;
     flex-wrap: wrap;
 
-    justify-content: space-evenly;
+    // justify-content: space-evenly;
+    justify-content: center;
+
+    gap: 1rem;
 
     .gallery-item {
 
@@ -169,7 +189,7 @@
 
       min-width: 100%;
 
-      margin-bottom: 2rem;
+      // margin-bottom: 2rem;
 
       .image-wrapper {
         height: 100%;
@@ -225,8 +245,11 @@
 
       @media (min-width: 700px) {
         margin: 0;
-        margin-right: .75rem;
-        margin-bottom: 2rem;
+
+        // margin: 0 .75rem 0;
+
+        // margin-bottom: 2rem;
+        // margin-bottom: 1rem;
 
         min-width: 266px;
         max-width: 266px;
@@ -236,12 +259,13 @@
     }
 
     @media (min-width: 1280px) {
-      justify-content: start;
+      // justify-content: start;
+      justify-content: space-between;
     }
   }
 
   @media (min-width: 700px) {
-    padding: 1rem;
+    // padding: 1rem;
     background-color: #f9f9f9;
   }
 

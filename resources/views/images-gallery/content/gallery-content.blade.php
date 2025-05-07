@@ -7,7 +7,7 @@
       <span>{{ __('Search for Images') }}</span>
     </label>
     <div class="input-container">
-      <input type="text" name="search" data-js="search-input" value="{{ $search }}" id="search-images" placeholder="Search" @if (!empty($search)) autofocus @endif>
+      <input type="text" name="search" data-js="search-input" value="{{ $search }}" id="search-images" placeholder="Search" autocomplete="off" @if (!empty($search)) autofocus @endif>
       <span class="input-line"></span>
     </div>
   </div>
@@ -24,7 +24,7 @@
     @csrf
     <input type="file" name="images[]" data-js="upload-images" accept="image/*" multiple>
     <div class="drop-zone" data-js="drop-zone">
-      <p>{{ __('Drag or drop images here') }}</p>
+      <p>{{ __('Drag and drop images here') }}</p>
     </div>
 
     <div data-js="upload-error" style="color: red;"></div>
