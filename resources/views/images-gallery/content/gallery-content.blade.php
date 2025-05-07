@@ -72,7 +72,7 @@ $classIfNoImageDisplayNone = $images->isEmpty() ? ' d-none' : '';
 
       <button type="submit">{{ __('Save') }}</button>
 
-      <button class="close-button" type="button" data-js="close-edit-modal" close-modal>{!! App\Helpers\Classes\SvgHelper::getSvg('close-icon', 'assets/svg'); !!}</button>
+      <button class="close-button" type="button" data-js="close-edit-modal" close-modal>{!! SvgHelper::getSvg('close-icon'); !!}</button>
 
     </form>
   </div>
