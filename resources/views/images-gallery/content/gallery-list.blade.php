@@ -5,7 +5,8 @@ use \App\Helpers\Classes\SvgHelper;
 
 $imagesLoopCount = 0;
 
-$isEmptyImages = $images->isEmpty();
+$isEmptyImages = (is_object($images) && method_exists($images, 'isEmpty') && $images->isEmpty());
+
 $classIfNotEmptyDontShow = $isEmptyImages ? '' : ' d-none';
 
 if ($isEmptyImages) echo '<style>
@@ -36,14 +37,14 @@ $imagesLoopCount += 1;
 
 $loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy' ;
 
-  $imgId=objParamExistsOrDefault($image,'id');
-  if (!$imgId) continue;
+$imgId=objParamExistsOrDefault($image,'id');
+if (!$imgId) continue;
 
-  $imgPath=objParamExistsOrDefault($image, 'file_path' );
-  $imgUrl=Storage::url($imgPath);
+$imgPath=objParamExistsOrDefault($image, 'file_path' );
+$imgUrl=Storage::url($imgPath);
 
-  $imgAlt=objParamExistsOrDefault($image,'alt_text', '' );
-  $imgDescription=objParamExistsOrDefault($image, 'description' );
+$imgAlt=objParamExistsOrDefault($image,'alt_text', '' );
+$imgDescription=objParamExistsOrDefault($image, 'description' );
 
 @endphp
 
@@ -77,13 +78,16 @@ $loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy' ;
 @endforeach
 
 @php // Add dummy empty slots if less than 12
-$remainingSlots = 12 - $imagesLoopCount;
+  $isUploadRequest = isset($uploadRequest) && $uploadRequest;
+  $remainingSlots = 12 - $imagesLoopCount;
 @endphp
 
-@for ($i = 0; $i < $remainingSlots; $i++)
-  <div class="gallery-item dummy" aria-hidden="true" style="opacity:0;">
-    <div class="image-wrapper dummy-wrapper">
+@if(!$isUploadRequest && !$isEmptyImages)
+  @for ($i = 0; $i < $remainingSlots; $i++)
+    <div class="gallery-item dummy" aria-hidden="true" style="opacity:0;">
+      <div class="image-wrapper dummy-wrapper">
+      </div>
+      <div class="gallery-actions"></div>
     </div>
-    <div class="gallery-actions"></div>
-  </div>
-@endfor
+  @endfor
+@endif

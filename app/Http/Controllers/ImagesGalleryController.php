@@ -120,9 +120,7 @@ class ImagesGalleryController extends Controller
         }
 
         // Generate HTML view for the uploaded images
-        $view = view('images-gallery.content.gallery-list', [
-            'images' => $uploadedImages
-        ])->render();
+        $view = view('images-gallery.content.gallery-list', ['images' => $uploadedImages, 'uploadRequest' => true])->render();
 
         return response()->json([
             'view_items' => $view,
