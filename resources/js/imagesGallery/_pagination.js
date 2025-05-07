@@ -62,7 +62,7 @@ function fetchPaginationData(url) {
 
       // Update gallery content
       galleryContainer.innerHTML = data.view;
-
+      
       // Update pagination links if included in the response
       const paginationContainer = galleryMainContainer?.querySelector('[data-js="pagination-links-container"]');
 
@@ -81,7 +81,7 @@ function fetchPaginationData(url) {
       }
 
       const scrollContainer = isGalleryPage
-        ? window : document.querySelector('.modal-content');  
+        ? window : document.querySelector('.modal-content');
 
       if (searchTypeContainer) scrollToHtmlElement(searchTypeContainer, 50, scrollContainer);
 

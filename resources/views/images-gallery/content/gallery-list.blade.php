@@ -1,8 +1,32 @@
-@php use Illuminate\Support\Facades\Storage;
+@php
+
+use Illuminate\Support\Facades\Storage;
+use \App\Helpers\Classes\SvgHelper;
 
 $imagesLoopCount = 0;
 
+$isEmptyImages = $images->isEmpty();
+$classIfNotEmptyDontShow = $isEmptyImages ? '' : ' d-none';
+
+if ($isEmptyImages) echo '<style>
+  .image-upload-form {
+    display: none;
+  }
+</style>';
+
 @endphp
+
+<div class="no-results-container{{ $classIfNotEmptyDontShow }}" data-js="no-results-container">
+  <div class="faces-container">
+    <span class="happy-face">{!! SvgHelper::getSvg('smiley-emoji-icon') !!}</span>
+
+    <span class="sad-face">{!! SvgHelper::getSvg('sad-emoji-face-icon') !!} </span>
+  </div>
+
+  <p>
+    <span class="not-results-text">{{ __('No results found...') }}</span>
+  </p>
+</div>
 
 @foreach ($images as $image)
 
@@ -10,20 +34,20 @@ $imagesLoopCount = 0;
 
 $imagesLoopCount += 1;
 
-$loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy';
+$loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy' ;
 
-$imgId = objParamExistsOrDefault($image,'id');
-if (!$imgId) continue;
+  $imgId=objParamExistsOrDefault($image,'id');
+  if (!$imgId) continue;
 
-$imgPath = objParamExistsOrDefault($image, 'file_path');
-$imgUrl = Storage::url($imgPath);
+  $imgPath=objParamExistsOrDefault($image, 'file_path' );
+  $imgUrl=Storage::url($imgPath);
 
-$imgAlt = objParamExistsOrDefault($image,'alt_text', '');
-$imgDescription = objParamExistsOrDefault($image, 'description');
+  $imgAlt=objParamExistsOrDefault($image,'alt_text', '' );
+  $imgDescription=objParamExistsOrDefault($image, 'description' );
 
-@endphp
+  @endphp
 
-<div class="gallery-item" data-gallery-item="{{ $imgId }}">
+  <div class="gallery-item" data-gallery-item="{{ $imgId }}">
 
   <figure class="image-wrapper" data-js="image-loading-wrapper">
     <div class="image-loader"></div>
@@ -49,5 +73,5 @@ $imgDescription = objParamExistsOrDefault($image, 'description');
     <button class="delete-btn" data-js="delete-btn" data-id="{{ $image->id }}">{{ __('Delete') }}</button>
   </div>
 
-</div>
-@endforeach
+  </div>
+  @endforeach

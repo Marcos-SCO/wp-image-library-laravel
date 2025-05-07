@@ -1,4 +1,8 @@
-@php use \App\Helpers\Classes\SvgHelper; @endphp
+@php use \App\Helpers\Classes\SvgHelper; 
+
+$classIfNoImageDisplayNone = $images->isEmpty() ? ' d-none' : '';
+
+@endphp
 
 <form data-js="main-search-inputs-form" action="{{ route('gallery.index') }}">
   <div class="search-type-container">

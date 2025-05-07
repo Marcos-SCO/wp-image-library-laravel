@@ -5,6 +5,12 @@
 
 @forward './cards';
 
+@forward './_noResultsFound';
+
+.d-none {
+  display: none;
+}
+
 .gallery-main-container {
   // padding: 1rem .5rem;
   padding: 2rem 1rem;
@@ -13,6 +19,8 @@
   // max-width: 1180px;
   max-width: 1208px;
   margin: auto;
+
+  min-height: 500px;
 
   // box-shadow: 0 0 47px rgb(0 0 0 / 15%);
   box-shadow: 0 0 47px rgb(0 0 0 / 9%);
