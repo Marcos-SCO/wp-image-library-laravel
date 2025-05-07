@@ -45,7 +45,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     // padding: 1.4rem;
     padding: 2.8rem 1.3rem 1.3rem;
     border-radius: 8px;
-    
+
     width: 100%;
     max-width: 90%;
     max-height: 90%;
@@ -56,6 +56,13 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
       max-width: 100%;
       max-height: 80vh;
       object-fit: contain;
+    }
+
+    &.page-loading {
+
+      &::after {
+        min-height: 100vh;
+      }
     }
   }
 
