@@ -1,0 +1,21 @@
+.page-header {
+    background: linear-gradient(to right, #015c94 0%, #015c94 35% 100%);
+
+    .session-controls-container {
+        svg {
+            width: 100%;
+            max-width: 20px;
+
+            path {
+                stroke: #fff;
+            }
+        }
+
+        .auth-username {
+            svg {
+                margin: 0 .55rem .2rem;
+            }
+        }
+    }
+
+}
