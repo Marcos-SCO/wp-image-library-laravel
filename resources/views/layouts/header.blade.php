@@ -28,7 +28,7 @@
         <div>
             <h1 class="text-center mb-3">{{ __('WP Media Library Laravel') }}</h1>
             
-            <small class="d-block mb-3 text-center">A image library inspired by Wordpress admin</small>
+            <small class="d-block mb-3 text-center">A image library inspired by Wordpress</small>
         </div>
 
         <nav class="d-flex flex-wrap justify-content-center gap-3 pt-2">
