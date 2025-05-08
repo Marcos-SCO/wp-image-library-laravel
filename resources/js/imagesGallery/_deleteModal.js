@@ -3,6 +3,8 @@ import { debounce } from "lodash";
 import { fetchPaginationData, updateDataPage } from "./_pagination";
 import { getBaseUrl, getLaravelCsrfToken } from '../helpers/_dom';
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from './_loading';
+import { swalYourNotAllowedModal } from './_sweAlertTemplates';
+import { closeLastActiveLightBoxModal } from './_closeModals';
 
 function removeImageFromAllPreviews(imageId) {
   const previews = document.querySelectorAll('.preview-image');
@@ -61,6 +63,9 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
 
   triggerLoadingAnimationFor(galleryMainContainer);
 
+  let responseMessage = 'Must authenticate';
+  let isLoggedUser = false;
+
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'DELETE',
     headers: {
@@ -71,9 +76,11 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
     .then(response => response.json())
     .then(data => {
       const dataSuccess = data?.success;
+      isLoggedUser = data?.isLoggedUser;
+      responseMessage = data?.message;
 
       if (!dataSuccess) {
-        console.error(data);
+        console.log(data);
         return;
       }
 
@@ -116,6 +123,8 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
       isLoading = false;
 
       removeLoadingAnimationFor(galleryMainContainer);
+
+      if (!isLoggedUser) swalYourNotAllowedModal(responseMessage);
     });
 
 }, 300); // 300ms debounce delay

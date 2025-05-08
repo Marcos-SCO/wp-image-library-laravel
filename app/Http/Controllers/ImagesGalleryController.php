@@ -61,7 +61,7 @@ class ImagesGalleryController extends Controller
 
         $isCurrentPageGreaterThanLast = $images->currentPage() > $images->lastPage();
 
-        
+
         if ($isCurrentPageGreaterThanLast && !($request->ajax())) {
 
             return redirect()->to(url()->current() . '?page=' . $images->lastPage());
@@ -88,6 +88,8 @@ class ImagesGalleryController extends Controller
 
     public function store(Request $request)
     {
+        $isLoggedUser = auth()->check();
+
         // Custom validation messages in Portuguese
         $messages = [
             'images.*.required' => 'Image is required.',
@@ -108,29 +110,37 @@ class ImagesGalleryController extends Controller
         $files = $request->file('images');
 
         if (empty($files)) return response()->json([
-            'error' => 'Failed in send image!'
+            'error' => true,
+            'message' => 'Failed in send image!'
         ], 422);
 
-        foreach ($files as $file) {
+        if ($isLoggedUser) {
 
-            $filePath = $file->store('images/gallery', 'public');
+            foreach ($files as $file) {
 
-            $image = ImageGallery::create([
-                'file_name' => $file->getClientOriginalName(),
-                'file_path' => $filePath,
-                'description' => $request->input('description'),
-                'alt_text' => $request->input('alt_text'),
-            ]);
+                $filePath = $file->store('images/gallery', 'public');
 
-            $uploadedImages[] = $image;
+                $image = ImageGallery::create([
+                    'file_name' => $file->getClientOriginalName(),
+                    'file_path' => $filePath,
+                    'description' => $request->input('description'),
+                    'alt_text' => $request->input('alt_text'),
+                ]);
+
+                $uploadedImages[] = $image;
+            }
         }
 
         // Generate HTML view for the uploaded images
         $view = view('images-gallery.content.gallery-list', ['images' => $uploadedImages, 'uploadRequest' => true])->render();
 
+        $successMessage = $isLoggedUser ? 'Images send successfully!' : 'Only signed in users can send images';
+
         return response()->json([
             'view_items' => $view,
-            'success' => 'Images send successfully!'
+            'success' => true,
+            'message' => $successMessage,
+            'isLoggedUser' => $isLoggedUser,
         ]);
     }
 
@@ -139,7 +149,7 @@ class ImagesGalleryController extends Controller
         $imageGallery = ImageGallery::find($id);
 
         if (!$imageGallery) {
-            return response()->json(['error' => 'Item not found'], 404);
+            return response()->json(['error'=> true, 'message' => 'Item not found'], 404);
         }
 
         return response()->json([
@@ -152,11 +162,19 @@ class ImagesGalleryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $isLoggedUser = auth()->check();
+
+        if (!$isLoggedUser) return response()->json([
+            'success' => false,
+            'message' => 'Only signed in user can update images',
+            'isLoggedUser' => $isLoggedUser,
+        ]);
+
         $image = ImageGallery::find($id);
 
         Log::info($request->all());
 
-        if (!$image) return response()->json(['error' => 'Item not found'], 404);
+        if (!$image) return response()->json(['error' => true, 'message' => 'Item not found'], 404);
 
         try {
 
@@ -204,16 +222,26 @@ class ImagesGalleryController extends Controller
             // Return only the updated image data
             return response()->json([
                 'success' => true,
+                'message' => 'Image updated successfully!',
                 'updated_image' => $image,
+                'isLoggedUser' => $isLoggedUser,
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => $e->errors()], 422);
+            return response()->json(['error' => true, 'error' => $e->errors()], 422);
         }
     }
 
 
     public function destroy($id)
     {
+        $isLoggedUser = auth()->check();
+
+        if (!$isLoggedUser) return response()->json([
+            'success' => false,
+            'message' => 'Only signed in user can delete images',
+            'isLoggedUser' => $isLoggedUser,
+        ]);
+
         try {
             $image = ImageGallery::findOrFail($id);
 
@@ -223,9 +251,9 @@ class ImagesGalleryController extends Controller
             // Delete the record from the database
             $image->delete();
 
-            return response()->json(['success' => 'Image deleted successfully!']);
+            return response()->json(['success' => true, 'message' => 'Image deleted successfully!', 'isLoggedUser' => $isLoggedUser, ]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Image not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Image not found', 'isLoggedUser' => $isLoggedUser,], 404);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { initEventListeners } from ".";
 import { getLaravelCsrfToken } from "../helpers/_dom";
+import { swalYourNotAllowedModal } from "./_sweAlertTemplates";
 
 function emptyFeedbackErrors(element) {
   const isHtmlDom = element instanceof HTMLElement;
@@ -94,6 +95,9 @@ export function uploadFiles(files) {
 
   emptyFeedbackErrors('[data-js="gallery-main-container"].active [data-js="upload-error"]');
 
+  let responseMessage = 'Must authenticate';
+  let isLoggedUser = true;
+
   fetch(uploadForm.action, {
     method: 'POST',
     body: formData,
@@ -107,6 +111,9 @@ export function uploadFiles(files) {
 
       const dataSuccess = data?.success;
       const dataErrors = data?.errors;
+      isLoggedUser = data?.isLoggedUser;
+
+      responseMessage = data?.message;
 
       console.log(data);
 
@@ -140,5 +147,8 @@ export function uploadFiles(files) {
       loadingCards.forEach(card => card.remove());
 
       uploadForm.reset();
+
+      if (!isLoggedUser) swalYourNotAllowedModal(responseMessage);
+
     });
 }

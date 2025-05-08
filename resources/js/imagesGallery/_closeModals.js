@@ -13,6 +13,19 @@ function activeToMainGalleryArticle() {
   initEventListeners();
 }
 
+function closeLastActiveLightBoxModal() {
+  const activeModals = document.querySelectorAll('.lightbox-modal.active');
+  console.log(activeModals);
+  if (!activeModals?.length > 0) return;
+  
+  const openedModals = Array.from(activeModals);
+  if (!openedModals) return;
+  
+  const lastActive = openedModals[openedModals?.length - 1];
+  
+  lastActive.classList.remove('active');
+}
+
 function handleEscKeyCloseLightModal() {
   const body = document.body;
 
@@ -25,15 +38,7 @@ function handleEscKeyCloseLightModal() {
     
     if (isSweetAlertActive) return;
     
-    const activeModals = document.querySelectorAll('.lightbox-modal.active');
-    if (!activeModals?.length > 0) return;
-    
-    const openedModals = Array.from(activeModals);
-    if (!openedModals) return;
-    
-    const lastActive = openedModals[openedModals?.length - 1];
-    
-    lastActive.classList.remove('active');
+    closeLastActiveLightBoxModal();
 
     removeClassFromSelectors('[data-js="gallery-main-container"].active', 'active');
 
@@ -95,5 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export {
-  activeToMainGalleryArticle
+  activeToMainGalleryArticle,
+  closeLastActiveLightBoxModal,
 }

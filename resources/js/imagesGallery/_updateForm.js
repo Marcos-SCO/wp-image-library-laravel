@@ -3,6 +3,8 @@ import { formDataToJson } from '../helpers/_json';
 import { fileToBase64 } from "../helpers/_files";
 import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
+import { swalYourNotAllowedModal } from "./_sweAlertTemplates";
+import { closeLastActiveLightBoxModal } from "./_closeModals";
 
 function updateGalleryItemDomInfo(dataId, galleryItemUpdatedObj) {
   const clickedGalleryITemImgs = document.querySelectorAll(`[data-gallery-item="${dataId}"] .image-wrapper img`);
@@ -47,6 +49,9 @@ function updatedRequest(id, jsonData) {
 
   triggerLoadingAnimationFor(modalContent, 'Updating...');
 
+  let responseMessage = 'Must authenticate';
+  let isLoggedUser = false;
+
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'PUT',
     body: JSON.stringify(jsonData),
@@ -59,8 +64,11 @@ function updatedRequest(id, jsonData) {
     .then(response => response.json())
     .then(data => {
 
+      isLoggedUser = data?.isLoggedUser;
+      responseMessage = data?.message;
+
       if (!data.success) {
-        console.error('Error:', data.error);
+        console.log('Error:', data);
         return;
       }
 
@@ -83,6 +91,11 @@ function updatedRequest(id, jsonData) {
       removeLoadingAnimationFor(modalContent);
 
       submitButton.innerText = 'save';
+
+      if (!isLoggedUser) {
+        closeLastActiveLightBoxModal();
+        swalYourNotAllowedModal(responseMessage);
+      }
     });
 }
 
