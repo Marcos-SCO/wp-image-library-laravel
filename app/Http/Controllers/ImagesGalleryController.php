@@ -170,7 +170,7 @@ class ImagesGalleryController extends Controller
 
         if (!$isLoggedUser) return response()->json([
             'success' => false,
-            'message' => 'Only signed in user can update images',
+            'message' => 'Only signed in users can update images',
             'isLoggedUser' => $isLoggedUser,
         ]);
 
