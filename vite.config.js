@@ -36,6 +36,10 @@ export default defineConfig({
                 {
                     src: 'resources/svg/*.svg',
                     dest: 'assets/svg',
+                },
+                {
+                    src: 'resources/img/*',
+                    dest: 'assets/img',
                 }
             ]
         }),
