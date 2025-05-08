@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .no-results-container {
 
     display: flex;
@@ -64,7 +66,8 @@
                 height: 2px;
                 width: 100%;
                 z-index: 1;
-                background-color: rgb(0, 123, 255);
+                // background-color: rgb(0, 123, 255);
+                background-color: $primary;
 
                 transform: scaleX(0);
                 transform-origin: left;
