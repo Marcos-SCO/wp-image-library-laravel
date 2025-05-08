@@ -15,6 +15,8 @@
 <body>
   @include('layouts.header')
 
+  @include('auth/authMessages')
+
   <main class="main-container mt-4 mb-5">
 
     @yield('content')

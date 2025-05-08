@@ -1,3 +1,17 @@
 .main-container {
     min-height: 450px;
 }
+
+.hide-element {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -999;
+    user-select: none;
+}
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
