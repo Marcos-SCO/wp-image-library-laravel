@@ -17,6 +17,8 @@ Route::get('gallery/modal', [ImagesGalleryController::class, 'loadGalleryModal']
 
 Route::get('/', [ImagesGalleryController::class, 'index'])->name('gallery.index');
 
+Route::get('/demonstration-buttons-page', [ImagesGalleryController::class, 'demonstrationButtonsPage'])->name('gallery.demonstrationButtonsPage');
+
 Route::get('gallery', [ImagesGalleryController::class, 'index'])->name('gallery.index');
 
 Route::post('gallery/upload', [ImagesGalleryController::class, 'store'])->name('gallery.store');

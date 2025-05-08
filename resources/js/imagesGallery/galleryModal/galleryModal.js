@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const imagesGalleryModal = document.querySelector('[data-js="gallery-selector-modal"]');
   const modalContent = document.querySelector('[data-js="modal-gallery-content"]');
 
+  if (!modalContent) console.error('No modal content...');
+
   if (!imagesGalleryModal || !modalContent) return;
 
   function updateModalSelectedImages() {
@@ -36,18 +38,20 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function requestModalItem() {
+    
     const url = getBaseUrl() + '/gallery/modal/';
 
-    triggerLoadingAnimationFor('body');
+    triggerLoadingAnimationFor('body', 'Opening Modal...');
 
     fetch(url)
       .then(response => response.text())
       .then(html => {
-        modalContent.innerHTML = html;
 
-        imagesGalleryModal.classList.add('active');
+        if (modalContent) modalContent.innerHTML = html;
 
-        imagesGalleryModal.classList.add('loaded-gallery');
+        imagesGalleryModal?.classList.add('active');
+
+        imagesGalleryModal?.classList.add('loaded-gallery');
 
         imagesGalleryModal?.querySelector('[data-js="gallery-main-container"]')
           ?.classList.add('active');
@@ -63,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(error => console.error('Error loading gallery:', error))
       .finally(() => {
-        
+
         removeLoadingAnimationFor('body');
       });
   }
@@ -81,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    imagesGalleryModal.classList.add('active');
+    imagesGalleryModal?.classList.add('active');
 
     imagesGalleryModal?.querySelector('[data-js="gallery-main-container"]')
       ?.classList.add('active');
@@ -242,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function selectModalImages() {
-    modalContent.addEventListener('click', function (event) {
+    modalContent?.addEventListener('click', function (event) {
       const targetElement = event.target;
       const imgItemId = targetElement?.getAttribute('data-img-item');
 
@@ -277,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const pluralSelect = selectLimit > 1 ? 's' : '';
-      const selectMaxMessage = `The limit is ${selectLimit} image${pluralSelect}`;
+      const selectMaxMessage = `The limit is ${selectLimit} item${pluralSelect}`;
 
       // SweetAlert for success without confirm button
       Swal.fire({

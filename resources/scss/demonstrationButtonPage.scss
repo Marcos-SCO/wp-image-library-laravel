@@ -1,0 +1,26 @@
+.demonstration-buttons-container {
+    .demonstration-item-container {
+        max-width: 700px;
+        background: #f9f9f9;
+        margin: auto;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        border-radius: 10px;
+
+        box-shadow: 0 0 47px rgba(0, 0, 0, 0.09);
+
+        p {
+            font-size: 1rem;
+            margin: .8rem 0 1.5rem;
+
+            @media (min-width: 700px) {
+
+                font-size: 1.35rem;
+            }
+        }
+
+        .preview-text-info {
+            font-size: 1rem;
+        }
+    }
+}

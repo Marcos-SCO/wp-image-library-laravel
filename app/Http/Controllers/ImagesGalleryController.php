@@ -54,6 +54,10 @@ class ImagesGalleryController extends Controller
         return view('images-gallery.external-module.gallery-modal', compact('images'));
     }
 
+    public function demonstrationButtonsPage() {
+        return view('demonstration-buttons-page.index');
+    }
+
     public function index(Request $request)
     {
         $images = $this->getPaginatedImages($request);
@@ -238,7 +242,7 @@ class ImagesGalleryController extends Controller
 
         if (!$isLoggedUser) return response()->json([
             'success' => false,
-            'message' => 'Only signed in user can delete images',
+            'message' => 'Only signed in users can delete images',
             'isLoggedUser' => $isLoggedUser,
         ]);
 
