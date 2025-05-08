@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .gallery-main-container .pagination-links {
 
   // Pagination Links
@@ -31,16 +33,19 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         text-decoration: none;
-        color: #007bff;
+        // color: #007bff;
+        color: $primary;
         transition: background 0.3s ease, color 0.3s ease;
       }
 
       &.active {
         .page-link {
 
-          background-color: #007bff;
+          // background-color: #007bff;
+          background-color: $primary;
           color: #fff;
-          border-color: #007bff;
+          // border-color: #007bff;
+          border-color: $primary;
         }
       }
 
@@ -48,7 +53,8 @@
         .page-link {
 
           background-color: #f1f1f1;
-          color: #007bff;
+          // color: #007bff;
+          color: $primary;
         }
       }
 

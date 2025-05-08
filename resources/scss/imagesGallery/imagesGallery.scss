@@ -7,6 +7,8 @@
 
 @forward './_noResultsFound';
 
+@use "../variables" as *;
+
 .d-none {
   display: none;
 }
@@ -117,7 +119,8 @@ body.swal2-shown {
 
       &::after {
         content: "";
-        background-color: #007bff;
+        // background-color: #007bff;
+        background-color: $primary;
         color: inherit;
         top: 0;
         height: 2px;
@@ -271,7 +274,8 @@ body.swal2-shown {
       }
 
       &:has(.selected) {
-        border-color: #007bff;
+        // border-color: #007bff;
+        border-color: $primary;
       }
 
       .gallery-actions {

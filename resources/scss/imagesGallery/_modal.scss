@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .swal2-container {
   z-index: 99999;
 }
@@ -61,7 +63,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
     &.page-loading {
 
       &::after {
-        min-height: 100vh;
+        position: fixed;
       }
     }
   }
@@ -255,7 +257,8 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
       }
 
       button[type="submit"] {
-        background: #007bff;
+        // background: #007bff;
+        background: $primary;
         color: #fff;
         border: none;
         padding: .5rem;

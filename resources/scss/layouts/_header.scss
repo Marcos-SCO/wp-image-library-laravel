@@ -1,5 +1,7 @@
+@use "../variables" as *;
+
 .page-header {
-    background: linear-gradient(to right, #015c94 0%, #015c94 35% 100%);
+    background: linear-gradient(to right, $primary 0%, $primary 35% 100%);
 
     .session-controls-container {
         svg {

@@ -1,5 +1,8 @@
 @forward 'bootstrap/dist/css/bootstrap.min.css';
 
+@forward './layouts/header';
+
+
 @forward './imagesGallery/imagesGallery.scss';
 
 @forward './imageWrapper';

@@ -1,3 +1,5 @@
+@use "../variables" as *;
+
 .img-preview-item {
   position: relative;
   // display: inline-block;
@@ -28,8 +30,10 @@
     width: 100%;
     padding: .45rem;
     max-width: 220px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
+    // border: 1px solid #007bff;
+    border: 1px solid $primary;
+    // background-color: #007bff;
+    background-color: $primary;
 
     color: #fff;
     border-radius: 4px;
@@ -38,8 +42,10 @@
     transition: background 0.3s ease, border-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
-      border-color: #0056b3;
+      // background-color: #0056b3;
+      background-color: $primary;
+      // border-color: #0056b3;
+      border-color: $primary;
     }
   }
 
