@@ -1,7 +1,9 @@
 @forward 'bootstrap/dist/css/bootstrap.min.css';
 
-@forward './layouts/header';
+@forward './global';
 
+@forward './layouts/header';
+@forward './auth/index.scss';
 
 @forward './imagesGallery/imagesGallery.scss';
 

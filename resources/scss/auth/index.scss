@@ -1,0 +1,17 @@
+@use "../variables" as *;
+
+.blue-button-color {
+    color: #fff;
+    background-color: $primary;
+    border: solid 1px $primary !important;
+
+    &:hover {
+        color: #fff;
+        background-color: $primary;
+    }
+
+    &.blue-button-color {
+        width: 100%;
+        max-width: 200px;
+    }
+}

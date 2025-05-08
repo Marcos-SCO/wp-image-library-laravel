@@ -1,14 +1,21 @@
 <?php
 
 use App\Http\Controllers\ImagesGalleryController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Auth - start
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+Route::post('/login', [LoginController::class, 'login']);
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Auth - end
 
 // Gallery WP styled - start
 Route::get('gallery/modal', [ImagesGalleryController::class, 'loadGalleryModal'])->name('gallery.modal');
+
+Route::get('/', [ImagesGalleryController::class, 'index'])->name('gallery.index');
 
 Route::get('gallery', [ImagesGalleryController::class, 'index'])->name('gallery.index');
 
