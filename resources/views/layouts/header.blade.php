@@ -1,9 +1,9 @@
 @php use \App\Helpers\Classes\SvgHelper; @endphp
-<header class="page-header py-4 text-white bg-dark position-relative">
+<header class="page-header py-4 pb-5 pt-xl-5 text-white bg-dark position-relative">
 
     <div class="container position-relative">
 
-        <div class="session-controls-container d-flex justify-content-end align-items-center position-absolute top-0 end-0 mt-3 me-3">
+        <div class="session-controls-container d-flex justify-content-end align-items-center top-0 end-0 mt-3 me-3">
             @auth
 
             <div class="auth-username me-3 d-flex align-center">
@@ -25,11 +25,15 @@
             @endauth
         </div>
 
-        <h1 class="text-center mb-4">{{ __('WP Media Library Laravel') }}</h1>
+        <div>
+            <h1 class="text-center mb-3">{{ __('WP Media Library Laravel') }}</h1>
+            
+            <small class="d-block mb-3 text-center">A image library inspired by Wordpress admin</small>
+        </div>
 
-        <nav class="d-flex justify-content-center gap-3 pt-2">
+        <nav class="d-flex flex-wrap justify-content-center gap-3 pt-2">
             <a href="{{ route('gallery.index') }}" class="btn btn-light py-2 px-4">{{ __('Main library page') }}</a>
-            <a href="{{ route('gallery.index') }}" class="btn btn-light py-2 px-4">{{ __('Open Modals demonstration') }}</a>
+            <a href="{{ route('gallery.demonstrationButtonsPage') }}" class="btn btn-light py-2 px-4">{{ __('Demonstration  Modal buttons') }}</a>
         </nav>
     </div>
 </header>

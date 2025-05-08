@@ -4,6 +4,13 @@
     background: linear-gradient(to right, $primary 0%, $primary 35% 100%);
 
     .session-controls-container {
+        margin-bottom: 1.35rem;
+
+        @media (min-width: 1000px) {
+            position: absolute;
+            margin-bottom: 0;
+        }
+
         svg {
             width: 100%;
             max-width: 20px;
