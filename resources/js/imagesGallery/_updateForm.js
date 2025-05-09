@@ -53,8 +53,12 @@ function updatedRequest(id, jsonData) {
   let responseMessage = 'Must authenticate';
   let isLoggedUser = false;
 
-  fetch(`${baseUrl}/gallery/${id}`, {
-    method: 'PUT',
+  const updateRequest = `${baseUrl}/update/gallery/${id}`;
+  // const updateRequest = `${baseUrl}/gallery/${id}`;
+
+  fetch(updateRequest, {
+    // method: 'PUT',
+    method: 'POST',
     body: JSON.stringify(jsonData),
     headers: {
       'Content-Type': 'application/json',

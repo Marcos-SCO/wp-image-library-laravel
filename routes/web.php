@@ -28,4 +28,10 @@ Route::get('gallery/{id}/show', [ImagesGalleryController::class, 'show'])->name(
 route::put('gallery/{id}', [ImagesGalleryController::class, 'update'])->name('gallery.update');
 
 Route::delete('gallery/{id}', [ImagesGalleryController::class, 'destroy'])->name('gallery.destroy');
+
+// Routes to servers that don't support PUT and DELETE
+route::post('update/gallery/{id}', [ImagesGalleryController::class, 'update'])->name('gallery.update');
+
+Route::post('delete/gallery/{id}', [ImagesGalleryController::class, 'destroy'])->name('gallery.destroy');
+
   // Gallery WP styled - end

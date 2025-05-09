@@ -66,8 +66,12 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
   let responseMessage = 'Must authenticate';
   let isLoggedUser = false;
 
-  fetch(`${baseUrl}/gallery/${id}`, {
-    method: 'DELETE',
+  // const deleteRequest = `${baseUrl}/gallery/${id}`;
+  const deleteRequest = `${baseUrl}/delete/gallery/${id}`;
+
+  fetch(deleteRequest, {
+    method: 'POST',
+    // method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
