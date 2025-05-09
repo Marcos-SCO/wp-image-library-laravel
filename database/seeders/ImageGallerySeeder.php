@@ -50,7 +50,8 @@ class ImageGallerySeeder extends Seeder
 
             // $storagePath = $galleryFolder . '/' . Str::random(10) . '_' . $fileName;
 
-            $newFileName = Str::random(10) . '_' . $fileName;
+            // $newFileName = Str::random(10) . '_' . $fileName;
+            $newFileName = $fileName;
             $destinationPath = $galleryFolder . '/' . $newFileName;
 
             // Copy to storage
