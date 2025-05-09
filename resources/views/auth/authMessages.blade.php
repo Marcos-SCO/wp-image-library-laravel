@@ -16,6 +16,10 @@
         closeButton.addEventListener('click', function() {
             alertBox.classList.add('hide-element');
         });
+        
+        setTimeout(() => {
+            alertBox.classList.add('hide-element');
+        }, 10000);
     }
 
     document.addEventListener('DOMContentLoaded', () => successMessage());
