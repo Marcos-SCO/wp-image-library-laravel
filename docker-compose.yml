@@ -2,7 +2,7 @@ services:
   app:
     build: 
       args:
-        user: wpmedialibrarylaravel
+        user: wpimagelibrarylaravel
         uid: 1000
       context: .
       dockerfile: Dockerfile
@@ -13,7 +13,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - wp_media_library_laravel
+      - wp_image_library_laravel
     ports: 
       - 5173:5173
 
@@ -26,7 +26,7 @@ services:
       - ./:/application
       - ./docker/nginx:/etc/nginx/conf.d/
     networks:
-      - wp_media_library_laravel  
+      - wp_image_library_laravel  
 
   mysql:
     # image: mysql:8.0
@@ -46,7 +46,7 @@ services:
       # - 3306:3306
       - "${DOCKER_EXTERNAL_MYSQL_PORT}:3306"
     networks:
-      - wp_media_library_laravel
+      - wp_image_library_laravel
 
   phpmyadmin:
     image: phpmyadmin
@@ -61,8 +61,8 @@ services:
     depends_on:
       - mysql
     networks:
-      - wp_media_library_laravel
+      - wp_image_library_laravel
 
 networks:
-  wp_media_library_laravel:
+  wp_image_library_laravel:
     driver: bridge
