@@ -117,7 +117,7 @@ class ImagesGalleryController extends Controller
 
         if (empty($files)) return response()->json([
             'error' => true,
-            'message' => 'Failed in send image!'
+            'message' => 'Failed sending image!'
         ], 422);
 
         if ($isLoggedUser) {
