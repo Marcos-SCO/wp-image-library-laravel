@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: "22.15.0"
 
+      - name: 🧹 Clean old build
+        run: rm -rf public/build
+
       - name: 📦 Install dependencies
         run: npm ci
 
