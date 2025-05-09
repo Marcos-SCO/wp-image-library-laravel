@@ -27,8 +27,10 @@ class ImageGallerySeeder extends Seeder
             File::deleteDirectory($galleryFolder);
         }
 
-        // ✅ Recreate folder
-        File::makeDirectory($galleryFolder, 0755, true);
+        if (!File::exists($galleryFolder)) {
+            // ✅ Recreate folder
+            File::makeDirectory($galleryFolder, 0755, true);
+        }
 
         // 🧹 Truncate the table
         \DB::table('images_gallery')->truncate();
