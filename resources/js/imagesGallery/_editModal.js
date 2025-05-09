@@ -145,7 +145,8 @@ function setEditModalValues(data) {
   editImageId.value = data?.id;
   editDescription.value = data.description || '';
   editAltText.value = data.alt_text || '';
-  editImage.src = data.file_path ? `/storage/${data.file_path}` : '';
+  // editImage.src = data.file_path ? `/storage/${data.file_path}` : '';
+  editImage.src = data.file_path ? `/${data.file_path}` : '';
 }
 
 function openEditModalImgItemData(id) {

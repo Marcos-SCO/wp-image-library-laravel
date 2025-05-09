@@ -17,7 +17,8 @@ function updateGalleryItemDomInfo(dataId, galleryItemUpdatedObj) {
 
     const { file_path, img_url, alt_text, description } = galleryItemUpdatedObj;
 
-    galleryItem.src = baseUrl + '/storage/' + file_path;
+    // galleryItem.src = baseUrl + '/storage/' + file_path;
+    galleryItem.src = baseUrl + '/' + file_path;
 
     galleryItem.setAttribute('data-img-path', file_path ?? '');
     galleryItem.setAttribute('data-img-url', img_url ?? '');
@@ -76,7 +77,8 @@ function updatedRequest(id, jsonData) {
       const imageElement = document.querySelector(`[data-gallery-item="${updatedImageData.id}"] .gallery-image`);
 
       if (imageElement) {
-        imageElement.src = baseUrl + '/storage/' + updatedImageData.file_path;
+        // imageElement.src = baseUrl + '/storage/' + updatedImageData.file_path;
+        imageElement.src = baseUrl + '/' + updatedImageData.file_path;
       }
 
       // console.log(data, 'updated');

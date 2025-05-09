@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const imagesGalleryModal = document.querySelector('[data-js="gallery-selector-modal"]');
   const modalContent = document.querySelector('[data-js="modal-gallery-content"]');
 
-  if (!modalContent) console.error('No modal content...');
-
   if (!imagesGalleryModal || !modalContent) return;
 
   function updateModalSelectedImages() {

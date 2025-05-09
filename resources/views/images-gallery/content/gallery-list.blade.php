@@ -9,11 +9,7 @@ $isEmptyImages = (is_object($images) && method_exists($images, 'isEmpty') && $im
 
 $classIfNotEmptyDontShow = $isEmptyImages ? '' : ' d-none';
 
-if ($isEmptyImages) echo '<style>
-  .image-upload-form {
-    display: none;
-  }
-</style>';
+if ($isEmptyImages) echo '<style>.image-upload-form {display: none;}</style>';
 
 @endphp
 
@@ -29,22 +25,25 @@ if ($isEmptyImages) echo '<style>
   </p>
 </div>
 
+{{-- $imgUrl=Storage::url($imgPath); --}}
+
 @foreach ($images as $image)
 
 @php
 
 $imagesLoopCount += 1;
 
-$loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy' ;
+$loadingAttribute = $imagesLoopCount <= 3 ? 'eager' : 'lazy';
 
 $imgId=objParamExistsOrDefault($image,'id');
 if (!$imgId) continue;
 
-$imgPath=objParamExistsOrDefault($image, 'file_path' );
-$imgUrl=Storage::url($imgPath);
+$imgPath=objParamExistsOrDefault($image, 'file_path');
 
-$imgAlt=objParamExistsOrDefault($image,'alt_text', '' );
-$imgDescription=objParamExistsOrDefault($image, 'description' );
+$imgUrl=$imgPath;
+
+$imgAlt=objParamExistsOrDefault($image,'alt_text', '');
+$imgDescription=objParamExistsOrDefault($image, 'description');
 
 @endphp
 

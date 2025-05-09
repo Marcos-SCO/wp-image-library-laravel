@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageGallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,7 +55,8 @@ class ImagesGalleryController extends Controller
         return view('images-gallery.external-module.gallery-modal', compact('images'));
     }
 
-    public function demonstrationButtonsPage() {
+    public function demonstrationButtonsPage()
+    {
         return view('demonstration-buttons-page.index');
     }
 
@@ -122,7 +124,15 @@ class ImagesGalleryController extends Controller
 
             foreach ($files as $file) {
 
-                $filePath = $file->store('images/gallery', 'public');
+                $fileName =
+                    uniqid() . '_' . $file->getClientOriginalName();
+
+                // Move file to public/uploads/gallery
+                $file->move(public_path('uploads/gallery'), $fileName);
+
+                // $filePath = $file->store('images/gallery', 'public');
+
+                $filePath = 'uploads/gallery/' . $fileName;
 
                 $image = ImageGallery::create([
                     'file_name' => $file->getClientOriginalName(),
@@ -153,7 +163,7 @@ class ImagesGalleryController extends Controller
         $imageGallery = ImageGallery::find($id);
 
         if (!$imageGallery) {
-            return response()->json(['error'=> true, 'message' => 'Item not found'], 404);
+            return response()->json(['error' => true, 'message' => 'Item not found'], 404);
         }
 
         return response()->json([
@@ -195,6 +205,12 @@ class ImagesGalleryController extends Controller
 
             // Handle base64 image file
             if ($request->has('image')) {
+
+                // Remove the old image file if it exists
+                if ($image->file_path && File::exists(public_path($image->file_path))) {
+                    File::delete(public_path($image->file_path));
+                }
+
                 // Decode base64 image
                 $imageData = $request->input('image');
                 $imageData = base64_decode($imageData);
@@ -203,19 +219,28 @@ class ImagesGalleryController extends Controller
                 $fileName = $request->input('image_name');
                 $fileType = $request->input('image_type');
 
-                $timestamp = now()->format('YmdHis');
-
-                $fileRandomName = $timestamp . '.' . $fileName;
+                $fileName = uniqid() . '_' . $fileName;
 
                 // Generate file path with original name and extension
-                $path = 'images/gallery/' . $fileRandomName;
+                // $filePath = 'images/gallery/' . $fileName;
                 // Storage::put($path, $imageData);
+                // Storage::disk('public')->put($filePath, $imageData);
 
-                // Save the file
-                Storage::disk('public')->put($path, $imageData);
+                $filePath = 'uploads/gallery/' . $fileName;
+
+                $uploadPath = public_path($filePath);
+
+                // Ensure directory exists
+                if (!File::exists(public_path('uploads/gallery'))) {
+
+                    File::makeDirectory(public_path('uploads/gallery'), 0755, true);
+                }
+
+                // Save the image
+                file_put_contents($uploadPath, $imageData);
 
                 $validatedData['file_name'] = $fileName;
-                $validatedData['file_path'] = $path;
+                $validatedData['file_path'] = $filePath;
             }
 
             $image->update($validatedData);
@@ -250,12 +275,17 @@ class ImagesGalleryController extends Controller
             $image = ImageGallery::findOrFail($id);
 
             // Delete the file from storage
-            Storage::disk('public')->delete($image->file_path);
+            // Storage::disk('public')->delete($image->file_path);
+
+            // Delete the physical file from public folder
+            if ($image->file_path && File::exists(public_path($image->file_path))) {
+                File::delete(public_path($image->file_path));
+            }
 
             // Delete the record from the database
             $image->delete();
 
-            return response()->json(['success' => true, 'message' => 'Image deleted successfully!', 'isLoggedUser' => $isLoggedUser, ]);
+            return response()->json(['success' => true, 'message' => 'Image deleted successfully!', 'isLoggedUser' => $isLoggedUser,]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => true, 'message' => 'Image not found', 'isLoggedUser' => $isLoggedUser,], 404);
         }
