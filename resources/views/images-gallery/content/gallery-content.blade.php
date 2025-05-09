@@ -46,7 +46,8 @@ $classIfNoImageDisplayNone = $images->isEmpty() ? ' d-none' : '';
 <div class="image-gallery-modal edit-modal lightbox-modal" data-js="edit-modal">
   <div class="modal-content">
     <form data-js="update-form" action="/gallery/id" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_method" value="PUT">
+      <!-- <input type="hidden" name="_method" value="PUT"> -->
+      <input type="hidden" name="_method" value="POST">
       <input type="hidden" data-js="edit-image-id" name="image_id">
 
       <div>
