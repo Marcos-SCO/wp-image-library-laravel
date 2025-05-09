@@ -69,6 +69,7 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
   fetch(`${baseUrl}/gallery/${id}`, {
     method: 'DELETE',
     headers: {
+      'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
       'X-CSRF-TOKEN': csrfToken
     }
