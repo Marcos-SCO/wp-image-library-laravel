@@ -208,7 +208,12 @@ class ImagesGalleryController extends Controller
 
                 // Remove the old image file if it exists
                 if ($image->file_path && File::exists(public_path($image->file_path))) {
-                    File::delete(public_path($image->file_path));
+                    $oldFileName = basename($image->file_path);
+
+                    // Check if the filename starts with a unique ID followed by underscore
+                    if (preg_match('/^\w+_/', $oldFileName)) {
+                        File::delete(public_path($image->file_path));
+                    }
                 }
 
                 // Decode base64 image
@@ -279,7 +284,12 @@ class ImagesGalleryController extends Controller
 
             // Delete the physical file from public folder
             if ($image->file_path && File::exists(public_path($image->file_path))) {
-                File::delete(public_path($image->file_path));
+                $oldFileName = basename($image->file_path);
+
+                // Check if the filename starts with a unique ID followed by underscore
+                if (preg_match('/^\w+_/', $oldFileName)) {
+                    File::delete(public_path($image->file_path));
+                }
             }
 
             // Delete the record from the database
