@@ -83,11 +83,6 @@ export function uploadFiles(files) {
     const loadingCard = createLoadingCard();
     loadingCards.push(loadingCard);
     galleryContainer.insertBefore(loadingCard, galleryContainer.firstChild);
-
-    if (galleryContainer.children.length > 12) {
-
-      galleryContainer.removeChild(galleryContainer.lastElementChild);
-    }
   });
 
   const csrfToken = getLaravelCsrfToken();
@@ -131,6 +126,16 @@ export function uploadFiles(files) {
       }
 
       if (dataErrors) displayFeedbackErrors(dataErrors);
+
+      // Remove gallery items from current page if number is greater than 12
+      if (dataSuccess && isLoggedUser) {
+        Array.from(files).forEach(() => {
+          if (galleryContainer.children.length > 12) {
+
+            galleryContainer.removeChild(galleryContainer.lastElementChild);
+          }
+        });
+      }
 
     })
     .catch(error => {
