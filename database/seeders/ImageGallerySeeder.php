@@ -40,6 +40,7 @@ class ImageGallerySeeder extends Seeder
 
         // 📦 Step 2: Get all image files in directory
         $imageFiles = File::files($sampleImageDir);
+        shuffle($imageFiles);
 
         foreach ($imageFiles as $file) {
             $fileName = $file->getFilename();
