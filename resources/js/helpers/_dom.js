@@ -19,21 +19,28 @@ function getLaravelCsrfToken() {
 
 function scrollToHtmlElement(element, offset = 50, container = window) {
     const isHtmlDom = element instanceof HTMLElement;
-    const targetElement = isHtmlDom ? element : document.querySelector(element);
+    
+    const targetElement = isHtmlDom
+        ? element : document.querySelector(element);
+
     if (!targetElement) return;
 
-    const scrollContainer = container instanceof HTMLElement
-        ? container : window;
+    const isWindow = container === window;
 
-    const containerTop = scrollContainer === window ? 0 : scrollContainer.getBoundingClientRect().top;
+    const containerTop = isWindow ? 0 : container.getBoundingClientRect().top;
+
+    const scrollTop = isWindow ? window.scrollY : container.scrollTop;
+    
     const elementTop = targetElement.getBoundingClientRect().top;
-    const scrollOffset = elementTop - containerTop + scrollContainer.scrollTop - offset;
 
-    scrollContainer.scrollTo({
+    const scrollOffset = elementTop - containerTop + scrollTop - offset;
+
+    (isWindow ? window : container).scrollTo({
         top: scrollOffset,
         behavior: 'smooth'
     });
 }
+
 
 export {
     getBaseUrl,
