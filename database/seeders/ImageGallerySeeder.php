@@ -67,8 +67,8 @@ class ImageGallerySeeder extends Seeder
                 'file_name' => $fileName,
                 // 'file_path' => $storagePath,
                 'file_path' => 'uploads/gallery/' . $newFileName,
-                'description' => 'Sample description for ' . $nameWithoutExtension,
-                'alt_text' => 'Alt text for ' . $nameWithoutExtension,
+                'description' => $nameWithoutExtension,
+                'alt_text' => $nameWithoutExtension,
             ]);
         }
 
