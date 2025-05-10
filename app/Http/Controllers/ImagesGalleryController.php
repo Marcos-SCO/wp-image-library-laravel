@@ -4,31 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\ImageGallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ImagesGalleryController extends Controller
 {
+    private function clearGalleryCache()
+    {
+        Cache::flush();
+    }
+
     private function getPaginatedImages(Request $request)
     {
-        $query = ImageGallery::query();
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 12);
 
         $search = $request->input('search');
 
-        if (!empty($search)) {
+        $cacheKey = 'images_gallery_' . md5($search . "_page_$page" . "_perPage_$perPage");
 
-            $query->where(function ($query) use ($search) {
-                $query->where('file_name', 'like', "%{$search}%")
-                    ->orWhere('description', 'like', "%{$search}%")
-                    ->orWhere('alt_text', 'like', "%{$search}%");
-            });
-        }
+        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $search, $perPage) {
 
-        $query->orderBy('created_at', 'desc');
+            $query = ImageGallery::query();
 
-        $perPage = $request->input('per_page', 12);
-        return $query->paginate($perPage)->appends($request->except('page'));
+            if (!empty($search)) {
+
+                $query->where(function ($query) use ($search) {
+                    $query->where('file_name', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+                        ->orWhere('alt_text', 'like', "%{$search}%");
+                });
+            }
+
+            $query->orderBy('created_at', 'desc');
+
+            return $query->paginate($perPage)->appends($request->except('page'));
+        });
     }
 
     public function loadGalleryModal(Request $request)
@@ -150,6 +163,8 @@ class ImagesGalleryController extends Controller
 
         $successMessage = $isLoggedUser ? 'Images send successfully!' : 'Only signed in users can send images';
 
+        $this->clearGalleryCache();
+
         return response()->json([
             'view_items' => $view,
             'success' => true,
@@ -253,6 +268,8 @@ class ImagesGalleryController extends Controller
             // Refresh the image to get the latest state
             $image->refresh();
 
+            $this->clearGalleryCache();
+
             // Return only the updated image data
             return response()->json([
                 'success' => true,
@@ -294,6 +311,8 @@ class ImagesGalleryController extends Controller
 
             // Delete the record from the database
             $image->delete();
+
+            $this->clearGalleryCache();
 
             return response()->json(['success' => true, 'message' => 'Image deleted successfully!', 'isLoggedUser' => $isLoggedUser,]);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

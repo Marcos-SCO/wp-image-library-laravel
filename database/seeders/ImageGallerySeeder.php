@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use App\Models\ImageGallery;
+use Illuminate\Support\Facades\Cache;
 
 class ImageGallerySeeder extends Seeder
 {
@@ -70,5 +71,8 @@ class ImageGallerySeeder extends Seeder
                 'alt_text' => 'Alt text for ' . $nameWithoutExtension,
             ]);
         }
+
+        // 🧹 Clear cache after seeding
+        Cache::flush();
     }
 }
