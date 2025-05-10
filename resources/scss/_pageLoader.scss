@@ -52,7 +52,7 @@
             display: inline-block;
             width: 1.1rem;
             height: 1.1rem;
-            margin-top: .5rem;
+            margin-top: .2rem;
             margin-left: .5rem;
             border: 0.15em solid currentColor;
             border-radius: 50%;
@@ -85,6 +85,7 @@
             &::after {
                 width: 1.5rem;
                 height: 1.5rem;
+                margin-top: .5rem;
             }
         }
 
