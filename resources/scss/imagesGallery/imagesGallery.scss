@@ -16,7 +16,7 @@
 body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown),
 body.swal2-shown {
   overflow: auto !important;
-  padding-right: 0!important;
+  padding-right: 0 !important;
 }
 
 .gallery-main-container {
@@ -28,7 +28,7 @@ body.swal2-shown {
   max-width: 1208px;
   margin: auto;
 
-  min-height: 500px;
+  // min-height: 500px;
 
   // box-shadow: 0 0 47px rgb(0 0 0 / 15%);
   box-shadow: 0 0 47px rgb(0 0 0 / 9%);
@@ -247,6 +247,11 @@ body.swal2-shown {
 
       min-width: 100%;
 
+      @media (min-width: 380px) {
+        min-height: 230px;
+        max-height: 230px;
+      }
+
       @media (min-width: 700px) {
         min-height: 210px;
         max-height: 210px;
@@ -307,6 +312,12 @@ body.swal2-shown {
         }
       }
 
+      &.dummy {
+        position: absolute;
+        z-index: -9;
+        user-select: none;
+      }
+
       @media (min-width: 500px) {
         max-width: 48%;
         min-width: 46%;
@@ -314,6 +325,7 @@ body.swal2-shown {
 
       // @media (min-width: 700px)
       @media (min-width: 700px) {
+
         margin: 0;
 
         // margin: 0 .75rem 0;
@@ -331,6 +343,12 @@ body.swal2-shown {
       @media (min-width: 1100px) {
         min-width: 23.9%;
         max-width: 23.9%;
+
+        &.dummy {
+          position: relative;
+          z-index: 1;
+          user-select: inherit;
+        }
       }
 
     }

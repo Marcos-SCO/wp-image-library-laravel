@@ -1,0 +1,23 @@
+    @use "../variables" as *;
+    
+    footer.main-footer {
+        background: linear-gradient(to right, $primary 0%, $primary 35% 100%);
+
+        padding: 1.35rem 1rem;
+
+        display: block;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+
+        address {
+            margin-bottom: 0;
+        }
+
+        &, a {
+            color: #fff;
+        }
+    }
+    
