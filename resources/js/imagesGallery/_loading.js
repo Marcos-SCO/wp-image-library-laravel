@@ -1,6 +1,6 @@
 function triggerLoadingAnimationFor(element, loadingTextMessage = 'Loading...') {
     if (!element) return;
-    
+
     const isHtmlDom = element instanceof HTMLElement;
 
     const targetItem = isHtmlDom ? element : document.querySelector(element);
@@ -12,7 +12,7 @@ function triggerLoadingAnimationFor(element, loadingTextMessage = 'Loading...') 
     const loader = document.createElement('div');
     loader.setAttribute('data-js', 'loader');
     loader.className = 'loader';
-    loader.innerHTML = loadingTextMessage;
+    loader.innerHTML = '<span>' + loadingTextMessage + '</span>';
 
     targetItem?.appendChild(loader);
 }

@@ -47,15 +47,34 @@
         // background-color: #007bff;
         background-color: $primary;
 
+        
+        @media (max-width: 700px) {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            
+            span {
+                max-width: 150px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            width: 100%;
+            max-width: fit-content;
+            text-align: center;
+        }
+
         @media (min-width: 700px) {
             font-size: 1.55rem;
+            padding: .5rem 1rem;
         }
 
         &::after {
             content: '';
             display: inline-block;
-            width: 1em;
-            height: 1em;
+            width: 1rem;
+            height: 1rem;
             margin-top: .5rem;
             margin-left: .5rem;
             border: 0.15em solid currentColor;
