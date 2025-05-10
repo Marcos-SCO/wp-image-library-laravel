@@ -13,7 +13,10 @@
 
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: center;
+
+    max-width: 235px;
+    margin: auto;
 
     li.page-item {
       display: inline-block;
@@ -61,10 +64,18 @@
     }
   }
 
+  @media (min-width: 450px) {
+    nav ul.pagination {
+      max-width: 847px;
+    }
+  }
+
   @media (min-width: 700px) {
     nav ul.pagination {
       // justify-content: left;
       justify-content: center;
+
+      max-width: 100%;
 
       li.page-item {
 
