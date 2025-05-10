@@ -25,7 +25,7 @@ class ImagesGalleryController extends Controller
 
         $cacheKey = 'images_gallery_' . md5($search . "_page_$page" . "_perPage_$perPage");
 
-        return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $search, $perPage) {
+        return Cache::remember($cacheKey, now()->addMinutes(180), function () use ($request, $search, $perPage) {
 
             $query = ImageGallery::query();
 
