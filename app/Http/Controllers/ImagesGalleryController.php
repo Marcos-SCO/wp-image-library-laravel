@@ -161,7 +161,7 @@ class ImagesGalleryController extends Controller
         // Generate HTML view for the uploaded images
         $view = view('images-gallery.content.gallery-list', ['images' => $uploadedImages, 'uploadRequest' => true])->render();
 
-        $successMessage = $isLoggedUser ? 'Images send successfully!' : 'Only signed in users can send images';
+        $successMessage = $isLoggedUser ? 'Images send successfully!' : 'Only signed-in users can send images';
 
         $this->clearGalleryCache();
 
@@ -195,7 +195,7 @@ class ImagesGalleryController extends Controller
 
         if (!$isLoggedUser) return response()->json([
             'success' => false,
-            'message' => 'Only signed in users can update images',
+            'message' => 'Only signed-in users can update images',
             'isLoggedUser' => $isLoggedUser,
         ]);
 
@@ -289,7 +289,7 @@ class ImagesGalleryController extends Controller
 
         if (!$isLoggedUser) return response()->json([
             'success' => false,
-            'message' => 'Only signed in users can delete images',
+            'message' => 'Only signed-in users can delete images',
             'isLoggedUser' => $isLoggedUser,
         ]);
 
