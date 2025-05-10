@@ -47,12 +47,25 @@
         // background-color: #007bff;
         background-color: $primary;
 
-        
+        &::after {
+            content: '';
+            display: inline-block;
+            width: 1.1rem;
+            height: 1.1rem;
+            margin-top: .5rem;
+            margin-left: .5rem;
+            border: 0.15em solid currentColor;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.6s linear infinite;
+        }
+
+
         @media (max-width: 700px) {
             display: flex;
             flex-wrap: nowrap;
             align-items: center;
-            
+
             span {
                 max-width: 150px;
                 white-space: nowrap;
@@ -68,20 +81,14 @@
         @media (min-width: 700px) {
             font-size: 1.55rem;
             padding: .5rem 1rem;
+
+            &::after {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
         }
 
-        &::after {
-            content: '';
-            display: inline-block;
-            width: 1rem;
-            height: 1rem;
-            margin-top: .5rem;
-            margin-left: .5rem;
-            border: 0.15em solid currentColor;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-        }
+
     }
 
 
