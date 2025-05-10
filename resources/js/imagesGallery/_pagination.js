@@ -35,6 +35,7 @@ function fetchPaginationData(url, fetchLoadingMessage = 'Loading page...') {
 
   fetch(url, {
     headers: {
+      'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
       'X-CSRF-TOKEN': csrfToken
     }

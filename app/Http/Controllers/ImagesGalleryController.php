@@ -78,8 +78,8 @@ class ImagesGalleryController extends Controller
         $images = $this->getPaginatedImages($request);
         $search = $request->input('search', '');
 
-        $isCurrentPageGreaterThanLast = $images->currentPage() > $images->lastPage();
-
+        $isCurrentPageGreaterThanLast =
+            $images->currentPage() > $images->lastPage();
 
         if ($isCurrentPageGreaterThanLast && !($request->ajax())) {
 
