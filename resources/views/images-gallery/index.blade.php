@@ -9,17 +9,17 @@ $search = indexParamExistsOrDefault($_GET, 'search', '');
 
 @section('content')
 
-<!-- @include('images-gallery.partials.image-selector', [
+{{-- @include('images-gallery.partials.image-selector', [
     'triggerId' => 1,
     'limit' => 5,
     'selectLabel' => __('Select images 1'),
-]) -->
+]) --}}
 
-<!-- @include('images-gallery.partials.image-selector', [
+{{-- @include('images-gallery.partials.image-selector', [
     'triggerId' => 2,
     'limit' => 2,
     'selectLabel' => __('Select images 2'),
-]) -->
+]) --}}
 
 @include('images-gallery.external-module.selector-container')
 
