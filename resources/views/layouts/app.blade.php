@@ -21,6 +21,13 @@
 
     @yield('content')
   </main>
+  @php
+  $currentYear = date('Y');
+  $currentYearCalc = $currentYear > 2025 ? '2025 - ' . $currentYear : $currentYear;
+  @endphp
+  <footer class="main-footer">
+    <address><span class="current-year">&copy; {{ $currentYearCalc }} </span> | <a href="https://www.linkedin.com/in/marcos-sco/" target="_blank">Developed by Marcos-SCO</a></address>
+  </footer>
 </body>
 
 </html>
