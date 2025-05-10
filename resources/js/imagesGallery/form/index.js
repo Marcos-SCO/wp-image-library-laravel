@@ -34,7 +34,7 @@ function sendGetFormRequest(form) {
   const formAction = formContainer?.action;
   const fullUrl = `${formAction}?${searchParams}`;
 
-  fetchPaginationData(fullUrl);
+  fetchPaginationData(fullUrl, 'Searching images...');
 }
 
 function formInputsChange(form, defaultFormSelect = '[data-js="gallery-main-container"].active [data-js="main-search-inputs-form"]') {

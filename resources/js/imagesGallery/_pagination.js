@@ -15,7 +15,7 @@ function updateDataPage(dataPage = 1) {
   currentPageInput.setAttribute('value', dataPage);
 }
 
-function fetchPaginationData(url) {
+function fetchPaginationData(url, fetchLoadingMessage = 'Loading page...') {
 
   const csrfToken = getLaravelCsrfToken();
   if (!csrfToken) console.error('No csrf token was provided...');
@@ -31,7 +31,7 @@ function fetchPaginationData(url) {
 
   const searchTypeContainer = galleryMainContainer?.querySelector('.search-type-container');
 
-  triggerLoadingAnimationFor(galleryMainContainer);
+  triggerLoadingAnimationFor(galleryMainContainer, fetchLoadingMessage);
 
   fetch(url, {
     headers: {
