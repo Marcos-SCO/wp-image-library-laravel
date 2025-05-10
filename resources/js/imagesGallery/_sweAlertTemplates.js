@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import { getBaseUrl } from "../helpers/_dom";
 
-function swalYourNotAllowedModal(responseMessage, title = 'You\'re not allowed!') {
+function swalYourNotAllowedModal(responseMessage, title = 'You shall not pass!') {
 
     Swal.fire({
         title: title,
@@ -19,6 +19,19 @@ function swalYourNotAllowedModal(responseMessage, title = 'You\'re not allowed!'
       });
 }
 
+function swalErrorModal(responseMessage, title = 'An unexpected occurred!') {
+    Swal.fire({
+        title: title,
+        text: responseMessage,
+        icon: 'error', 
+        confirmButtonColor: '#c64444',
+        confirmButtonText: 'Ok, I understand',
+    }).then((result) => {
+        // if (result.isConfirmed) {}
+    });
+}
+
 export {
-    swalYourNotAllowedModal
+    swalYourNotAllowedModal,
+    swalErrorModal,
 }
