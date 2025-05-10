@@ -43,7 +43,7 @@ function fetchPaginationData(url) {
     .then(data => {
 
       // Handle redirection if the server suggests a redirect to a different page
-      if (data.redirect) {
+      if (data?.redirect) {
         window.location.href = data.redirect;
         return;
       }

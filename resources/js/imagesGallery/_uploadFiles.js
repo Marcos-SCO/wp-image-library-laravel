@@ -1,6 +1,6 @@
 import { initEventListeners } from ".";
 import { getLaravelCsrfToken } from "../helpers/_dom";
-import { swalYourNotAllowedModal } from "./_sweAlertTemplates";
+import { swalErrorModal, swalYourNotAllowedModal } from "./_sweAlertTemplates";
 
 function emptyFeedbackErrors(element) {
   const isHtmlDom = element instanceof HTMLElement;
@@ -29,8 +29,6 @@ function displayFeedbackErrors(dataErrors) {
   errorMessage += `</ul>`;
 
   errorContainer.innerHTML = errorMessage;
-
-  console.log(errorContainer);
 
   console.error('Error sending files:', dataErrors);
 }
@@ -91,7 +89,7 @@ export function uploadFiles(files) {
   emptyFeedbackErrors('[data-js="gallery-main-container"].active [data-js="upload-error"]');
 
   let responseMessage = 'Must authenticate';
-  let isLoggedUser = true;
+  let isLoggedUser = false;
 
   fetch(uploadForm.action, {
     method: 'POST',
@@ -112,6 +110,25 @@ export function uploadFiles(files) {
 
       console.log(data);
 
+      if (dataErrors) {
+        displayFeedbackErrors(dataErrors);
+
+        swalErrorModal(responseMessage, 'Unable to upload!');
+        return;
+      }
+
+      if (!dataSuccess && isLoggedUser) {
+        console.log('Error:', data);
+
+        swalErrorModal(responseMessage, 'Unable to upload!');
+        return;
+      }
+
+      if (!isLoggedUser) {
+        swalYourNotAllowedModal(responseMessage);
+        return;
+      }
+
       // Handle success case
       if (dataSuccess) {
         const tempDiv = document.createElement('div');
@@ -124,8 +141,6 @@ export function uploadFiles(files) {
 
         initEventListeners();
       }
-
-      if (dataErrors) displayFeedbackErrors(dataErrors);
 
       // Remove gallery items from current page if number is greater than 12
       if (dataSuccess && isLoggedUser) {
@@ -144,6 +159,10 @@ export function uploadFiles(files) {
       if (errorContainer) {
         errorContainer.innerHTML = '<p>Error while trying to send files, try again.</p>';
       }
+
+      swalErrorModal('Error while trying to send files, try again', 'Unable to upload item!');
+
+      return;
     })
     .finally(() => {
       isLoading = false;
@@ -152,8 +171,6 @@ export function uploadFiles(files) {
       loadingCards.forEach(card => card.remove());
 
       uploadForm.reset();
-
-      if (!isLoggedUser) swalYourNotAllowedModal(responseMessage);
 
     });
 }

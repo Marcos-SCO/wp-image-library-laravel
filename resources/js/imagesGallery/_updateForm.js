@@ -5,6 +5,7 @@ import { getBaseUrl, getLaravelCsrfToken } from "../helpers/_dom";
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from "./_loading";
 import { swalYourNotAllowedModal } from "./_sweAlertTemplates";
 import { closeLastActiveLightBoxModal } from "./_closeModals";
+import Swal from "sweetalert2";
 
 function updateGalleryItemDomInfo(dataId, galleryItemUpdatedObj) {
   const clickedGalleryITemImgs = document.querySelectorAll(`[data-gallery-item="${dataId}"] .image-wrapper img`);
@@ -72,8 +73,16 @@ function updatedRequest(id, jsonData) {
       isLoggedUser = data?.isLoggedUser;
       responseMessage = data?.message;
 
-      if (!data.success) {
+      if (!data.success && isLoggedUser) {
         console.log('Error:', data);
+
+        swalErrorModal(responseMessage, 'Unable to update item!');
+        return;
+      }
+
+      if (!isLoggedUser) {
+        closeLastActiveLightBoxModal();
+        swalYourNotAllowedModal(responseMessage);
         return;
       }
 
@@ -90,18 +99,29 @@ function updatedRequest(id, jsonData) {
       updateGalleryItemDomInfo(id, updatedImageData);
 
       activeEditModal.classList.remove('active');
+
+      Swal.fire({
+        title: 'Updated!',
+        text: 'Your image was updated.',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
     })
-    .catch(error => console.error('Error updating image:', error))
+    .catch(error => {
+      console.error('Error updating image:', error);
+
+      const message = error?.message || 'An unexpected error occurred';
+
+      swalErrorModal(message, 'Error updating image!')
+
+    })
     .finally(() => {
 
       removeLoadingAnimationFor(modalContent);
 
       submitButton.innerText = 'save';
-
-      if (!isLoggedUser) {
-        closeLastActiveLightBoxModal();
-        swalYourNotAllowedModal(responseMessage);
-      }
     });
 }
 

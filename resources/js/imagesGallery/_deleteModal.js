@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import { fetchPaginationData, updateDataPage } from "./_pagination";
 import { getBaseUrl, getLaravelCsrfToken } from '../helpers/_dom';
 import { removeLoadingAnimationFor, triggerLoadingAnimationFor } from './_loading';
-import { swalYourNotAllowedModal } from './_sweAlertTemplates';
+import { swalErrorModal, swalYourNotAllowedModal } from './_sweAlertTemplates';
 import { closeLastActiveLightBoxModal } from './_closeModals';
 
 function removeImageFromAllPreviews(imageId) {
@@ -84,8 +84,15 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
       isLoggedUser = data?.isLoggedUser;
       responseMessage = data?.message;
 
-      if (!dataSuccess) {
+      if (!dataSuccess && isLoggedUser) {
         console.log(data);
+
+        swalErrorModal(responseMessage, 'Unable to delete item!');
+        return;
+      }
+
+      if (!isLoggedUser) {
+        swalYourNotAllowedModal(responseMessage);
         return;
       }
 
@@ -123,13 +130,17 @@ const debounceDeleteGalleryItem = debounce((id, galleryItemsWithId) => {
       fetchPaginationData(`${baseUrl}/gallery?page=${1}`);
       updateDataPage(1);
     })
-    .catch(error => console.error('Error deleting image:', error))
+    .catch(error => {
+      console.error('Error deleting image:', error);
+
+      swalErrorModal('Error while trying to delete item, try again', 'Unable to delete item!');
+
+    })
     .finally(() => {
       isLoading = false;
 
       removeLoadingAnimationFor(galleryMainContainer);
 
-      if (!isLoggedUser) swalYourNotAllowedModal(responseMessage);
     });
 
 }, 300); // 300ms debounce delay
