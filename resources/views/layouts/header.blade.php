@@ -29,13 +29,13 @@
             <h1 class="text-center mb-3">{{ __('WP Media Library Laravel') }}</h1>
 
             <div class="sub-title-container mb-3">
-                
-                <small class="d-block text-center">A image library inspired by Wordpress</small>
                 <div class="svg-logos-container">
                     <span class="wp-icon">{!! SvgHelper::getSvg('wordpress-icon') !!}</span>
                     <span class="plus">+</span>
                     <span class="laravel-icon">{!! SvgHelper::getSvg('laravel-icon') !!}</span>
                 </div>
+
+                <small class="d-block text-center">A image library inspired by Wordpress</small>
             </div>
         </div>
 
