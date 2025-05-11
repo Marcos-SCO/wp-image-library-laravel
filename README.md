@@ -11,9 +11,9 @@ A Image Library inspired by Worpress in Laravel
 - 🧩 **Reusable media selector**: modal buttons allow selecting items (with optional limits), easily integrated into input fields across the app  
 
 
-### Video demo 💻
+### 📺 Video Demo
 
-[Watch it here: ](https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO)
+[Watch it here](https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO)
 
 <a href="https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO" target="_blank">
   <img src="resources/img/gif-preview.gif" alt="Video Preview" />
