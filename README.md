@@ -15,6 +15,10 @@ A Image Library inspired by Worpress in Laravel
 - Bootstrap
 - Javascript
 
+<a href="https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO" target="_blank">
+  <img src="resources/img/gif-preview.gif" alt="Video Preview" />
+</a>
+
 ## Instructions for Running Locally 🚀
 
 This repository contains the necessary Docker files to run the development environment.
