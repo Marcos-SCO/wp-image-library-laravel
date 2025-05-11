@@ -3,6 +3,22 @@ A Image Library inspired by Worpress in Laravel
 
 <p>Available at: <a href="https://wpmediaimageslibrary.infinityfreeapp.com/" target="_blank">https://wpmediaimageslibrary.infinityfreeapp.com/</a></p>
 
+### Key Features ✨
+
+- 📁 **Upload images** via file input or drag-and-drop  
+- 🔍 **Search and pagination** for easier browsing  
+- 📝 **Edit image items**: update the description, alt text, or even replace the image  
+- 🧩 **Reusable media selector**: modal buttons allow selecting items (with optional limits), easily integrated into input fields across the app  
+
+
+### 📺 Video Demo
+
+[Watch it here](https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO)
+
+<a href="https://www.youtube.com/watch?v=iG4d5Ay2i0A&ab_channel=MarcosSCO" target="_blank">
+  <img src="resources/img/gif-preview.gif" alt="Video Preview" />
+</a>
+
 ### Technologies Used 💻
 
 - Docker
